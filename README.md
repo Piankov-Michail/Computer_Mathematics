@@ -1,4 +1,5 @@
 ## [Таблица с заданием и положением дел](https://docs.google.com/spreadsheets/d/1PiWMP1UAox0SyNpW9YoAOpx2_R84qDdb68PuRcVVy04/edit?gid=0#gid=0)
+### <br>
 ## Наше задание:
 Уточнение орбиты КА
 
@@ -18,7 +19,7 @@
 
 
 После того, как вы построите орбиту КА и научитесь получать наблюдаемую и вычисляемую величину вам надо реализовать метод наименьших квадратов.
-
+### <br>
 ## План работ по задаче:
 
 Научиться читать данные с ODF файлов. Прочитать пункт в Verma про ODF файл, понять как вам получить наблюдаемые величины.
@@ -28,3 +29,8 @@
 Получить вычисляемые величины по полученной орбите. (Решение Light-Time, вычисление Ramped Two-way Doppler Shift или Two-way Range).
 
 Метод наименьших квадратов
+### <br>
+## Материалы:
+* [Конкретные формулы для обратной задачи](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/%D0%92%D0%B0%D0%B6%D0%BD%D0%BE%D0%B5.pdf)
+* [Книга](https://descanso.jpl.nasa.gov/monograph/series2/Descanso2_all.pdf)
+* [Общие материалы с практики](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/%D0%9E%D1%81%D1%82%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5.pdf)
