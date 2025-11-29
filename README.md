@@ -33,4 +33,5 @@
 ## Материалы:
 * [Конкретные формулы для обратной задачи](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/%D0%92%D0%B0%D0%B6%D0%BD%D0%BE%D0%B5.pdf)
 * [Книга](https://descanso.jpl.nasa.gov/monograph/series2/Descanso2_all.pdf)
+* [Короткая статья почти прям по задаче](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/%D0%B2%D0%B5%D0%BB%D0%B8%D0%BA%D0%BE%D0%BB%D0%B5%D0%BF%D0%BD%D0%B0%D1%8F_%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0.pdf)
 * [Общие материалы с практики](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/%D0%9E%D1%81%D1%82%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5.pdf)
