@@ -40,3 +40,6 @@
 ## Что получилось вроде:
 ### Орбита КА
 ![Орбита КА](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/%D0%9E%D1%80%D0%B1%D0%B8%D1%82%D0%B0.png)
+### True orbit
+<img width="974" height="550" alt="image" src="https://github.com/user-attachments/assets/3d77ddbc-511f-40c1-988e-a1859d871d5f" />
+
