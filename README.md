@@ -38,8 +38,12 @@
 <br>
 
 ## Что получилось вроде:
+### Сдвиг частоты
+![Сдвиг частоты](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/plots/ramped_doppler_55_2015-04-05.png)
 ### Орбита КА
-<iframe src="https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/mercury_orbit_3d_plotly.html" width="100%" height="500" frameBorder="0"></iframe>
+![Орбита КА](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/messenger_orbit.png)
 ### True orbit
 <img width="974" height="550" alt="image" src="https://github.com/user-attachments/assets/3d77ddbc-511f-40c1-988e-a1859d871d5f" />
+### Орбиты других тел за рассматриваемый период
+![Орбиты других тел](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/all_orbits.png)
 
