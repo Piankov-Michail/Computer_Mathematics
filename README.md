@@ -44,6 +44,9 @@
 ### Орбита КА
 ![Орбита КА](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/messenger_orbit.png)
 <br>
+### Амплитуда КА
+![Амплитуда КА](https://github.com/Piankov-Michail/Computer_Mathematics/blob/main/plots/mercury_distance_over_time_matplotlib.png)
+<br>
 ### True orbit
 <img width="974" height="550" alt="image" src="https://github.com/user-attachments/assets/3d77ddbc-511f-40c1-988e-a1859d871d5f"></img>
 <br>
