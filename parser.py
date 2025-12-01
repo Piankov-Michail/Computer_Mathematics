@@ -1,4 +1,3 @@
-# parser.py — robust, pdr-free version for MESSENGER ODF
 import struct
 import pandas as pd
 from datetime import datetime, timezone
@@ -9,7 +8,6 @@ def parse_messenger_odf(label_path: str):
 
     tree = ET.parse(label_path)
     root = tree.getroot()
-
     ns = {"pds": "http://pds.nasa.gov/pds4/pds/v1"}
 
     orbit_table = None
@@ -24,10 +22,8 @@ def parse_messenger_odf(label_path: str):
 
     offset_elem = orbit_table.find("pds:offset", ns)
     records_elem = orbit_table.find("pds:records", ns)
-
     offset = int(offset_elem.text)
     n_records = int(records_elem.text)
-    print(f"Found 'ODF Orbit Data Group Data': offset={offset}, records={n_records}")
 
     dat_path = label_path.replace(".xml", ".dat")
     with open(dat_path, "rb") as f:
@@ -39,86 +35,71 @@ def parse_messenger_odf(label_path: str):
 
     records = []
     ref_epoch = datetime(1950, 1, 1, tzinfo=timezone.utc)
+    C = 299_792_458.0
 
     for i in range(n_records):
         start = i * 36
         rec = raw[start:start+36]
 
         t_int = struct.unpack('>I', rec[0:4])[0]
-
         packed_23 = struct.unpack('>I', rec[4:8])[0]
         t_frac_ms = (packed_23 >> 22) & 0x3FF
+        total_sec = t_int + t_frac_ms / 1000.0
+        time_utc = ref_epoch + pd.Timedelta(seconds=total_sec)
 
         obs_int = struct.unpack('>i', rec[8:12])[0]
         obs_frac = struct.unpack('>i', rec[12:16])[0]
-        doppler = obs_int + obs_frac * 1e-9
+        observable_raw = obs_int + obs_frac * 1e-9
 
         packed_6_14 = struct.unpack('>I', rec[16:20])[0]
         station_id = (packed_6_14 >> 22) & 0x7F
         data_type = (packed_6_14 >> 7) & 0x3F
         valid = (packed_6_14 & 0x1) == 0
 
-        total_sec = t_int + t_frac_ms / 1000.0
-        time_utc = ref_epoch + pd.Timedelta(seconds=total_sec)
-
-        records.append({
+        record = {
             "time_utc": time_utc,
-            "doppler_hz": doppler,
-            "station_id": station_id,
             "data_type": data_type,
-            "valid": valid
-        })
+            "station_id": station_id,
+            "valid": valid,
+            "observable_raw": observable_raw,
+            "doppler_hz": None,
+            "range_m": None,
+            "range_type": None
+        }
+
+        if not valid:
+            records.append(record)
+            continue
+
+        if data_type in (11, 12, 13):
+            record["doppler_hz"] = observable_raw
+        elif data_type == 37:
+            record["range_m"] = observable_raw
+            record["range_type"] = "sequential"
+        elif data_type == 41:
+            record["range_m"] = C * observable_raw / 2e9
+            record["range_type"] = "re"
+
+        records.append(record)
 
     df = pd.DataFrame(records)
-    doppler_df = df[(df["valid"]) & (df["data_type"].isin([11, 12, 13]))].reset_index(drop=True)
-
-    print(f"✅ Parsed {len(doppler_df)} valid Doppler records.")
-    return doppler_df
-
+    return df
 
 if __name__ == "__main__":
-    # Папки для входных и выходных файлов
     input_dir = "downloaded_files"
     output_dir = "data"
     
-    # Создаем папку для выходных данных, если её нет
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-        print(f"Создана папка для выходных данных: {output_dir}")
     
-    # Ищем XML файлы в папке downloaded_files
     file_pattern = os.path.join(input_dir, "mess_rs_*.xml")
     xml_files = glob.glob(file_pattern)
     
     if not xml_files:
-        print(f"Файлы, соответствующие шаблону '{file_pattern}', не найдены.")
-        print("Убедитесь, что:")
-        print(f"1. Папка '{input_dir}' существует")
-        print(f"2. В папке '{input_dir}' есть файлы mess_rs_*.xml")
-        print(f"3. Для каждого XML файла есть соответствующий DAT файл")
+        print("No files found.")
     else:
-        print(f"Найдено {len(xml_files)} файлов для обработки в папке '{input_dir}'")
-
         for xml_file in xml_files:
-            try:
-                print(f"\nОбрабатывается файл: {os.path.basename(xml_file)}")
-                
-                # Парсим данные
-                df = parse_messenger_odf(xml_file)
-                
-                # Формируем имя выходного CSV файла
-                base_name = os.path.splitext(os.path.basename(xml_file))[0]
-                csv_file = os.path.join(output_dir, base_name + ".csv")
-                
-                # Сохраняем в CSV
-                df.to_csv(csv_file, index=False)
-                
-                print(f"✅ Файл обработан и сохранен в: {csv_file}")
-                print(f"   Количество записей: {len(df)}")
-                
-            except Exception as e:
-                print(f"❌ Ошибка при обработке файла {xml_file}: {e}")
-                continue
-
-        print(f"\nОбработка всех файлов завершена.")
-        print(f"CSV файлы сохранены в папку: {output_dir}")
+            df = parse_messenger_odf(xml_file)
+            base_name = os.path.splitext(os.path.basename(xml_file))[0]
+            csv_file = os.path.join(output_dir, base_name + ".csv")
+            df.to_csv(csv_file, index=False)
