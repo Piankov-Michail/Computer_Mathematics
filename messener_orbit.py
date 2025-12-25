@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Callable, Optional, Tuple
 import numpy as np
 from scipy.integrate import solve_ivp
 from horizons_parser import load_horizons_data
@@ -24,6 +24,92 @@ def create_initial_state_from_horizons_data(new_time) -> tuple:
     
     return initial_state
 
+def rk4_integrate(
+    fun: Callable[[float, np.ndarray], np.ndarray],
+    t_span: Tuple[float, float],
+    y0: np.ndarray,
+    t_eval: Optional[np.ndarray] = None,
+    max_step: float = 10.0,
+    rtol: float = 1e-6,
+    atol: float = 1e-9
+) -> Dict[str, np.ndarray]:
+    
+    t0, tf = t_span
+    y0 = np.asarray(y0, dtype=float)
+    n_dim = y0.size
+    
+    if t_eval is None:
+        num_points = int((tf - t0) / max_step) + 1
+        t_eval = np.linspace(t0, tf, num_points)
+    else:
+        t_eval = np.sort(np.asarray(t_eval, dtype=float))
+        if t_eval[0] > t0:
+            t_eval = np.insert(t_eval, 0, t0)
+        if t_eval[-1] < tf:
+            t_eval = np.append(t_eval, tf)
+    
+    n_points = len(t_eval)
+    y_result = np.zeros((n_dim, n_points))
+    t_result = t_eval.copy()
+    
+    y_current = y0.copy()
+    t_current = t0
+    idx = 0
+    
+    if np.isclose(t_current, t_eval[0], atol=1e-12):
+        y_result[:, idx] = y_current
+        idx += 1
+    
+    while t_current < tf and idx < n_points:
+        t_target = t_eval[idx]
+        
+        h = min(t_target - t_current, max_step)
+
+        if h < 1e-12:
+            y_result[:, idx] = y_current
+            idx += 1
+            continue
+
+        k1 = fun(t_current, y_current)
+        
+        y_mid1 = y_current + h * k1 / 2.0
+        k2 = fun(t_current + h/2.0, y_mid1)
+        
+        y_mid2 = y_current + h * k2 / 2.0
+        k3 = fun(t_current + h/2.0, y_mid2)
+        
+        y_end = y_current + h * k3
+        k4 = fun(t_current + h, y_end)
+        
+        y_next = y_current + h / 6.0 * (k1 + 2*k2 + 2*k3 + k4)
+        
+        t_current += h
+        y_current = y_next
+
+        while idx < n_points and t_eval[idx] <= t_current + 1e-12:
+            if np.isclose(t_eval[idx], t_current, atol=1e-12):
+                y_result[:, idx] = y_current
+            else:
+                if idx > 0:
+                    t_prev = t_eval[idx-1]
+                    y_prev = y_result[:, idx-1]
+                    ratio = (t_eval[idx] - t_prev) / (t_current - t_prev)
+                    y_result[:, idx] = y_prev + ratio * (y_current - y_prev)
+                else:
+                    y_result[:, idx] = y_current
+            idx += 1
+
+    while idx < n_points:
+        y_result[:, idx] = y_current
+        idx += 1
+    
+    return {
+        't': t_result,
+        'y': y_result,
+        'success': True,
+        'message': 'Интегрирование успешно завершено'
+    }
+
 def integrate_messenger_orbit(
     t_span: List[float],
     t_eval: np.ndarray,
@@ -34,7 +120,7 @@ def integrate_messenger_orbit(
 ) -> Dict:
 
     try:
-        solution = solve_ivp(
+        solution = rk4_integrate(
             fun=lambda t, state: equations_of_motion_corrected(
                 t, state,
                 body_interpolators['mercury'],
@@ -49,17 +135,17 @@ def integrate_messenger_orbit(
             ),
             t_span=t_span,
             y0=initial_state,
-            method='DOP853',
             t_eval=t_eval,
-            rtol=1e-9,
+            max_step=50,
+            rtol=1e-6,
             atol=1e-9
         )
         
-        if solution.success:
+        if solution['success']:
             return {
-                'times': solution.t,
-                'positions': solution.y[:3].T,
-                'velocities': solution.y[3:6].T,
+                'times': solution['t'],
+                'positions': solution['y'][:3].T,
+                'velocities': solution['y'][3:6].T,
                 'success': True
             }
         else:
