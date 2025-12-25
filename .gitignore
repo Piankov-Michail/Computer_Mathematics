@@ -3,3 +3,5 @@ env/
 __pycache__
 
 raw_messenger_doppler_data.csv
+
+horizons_data/*.txt

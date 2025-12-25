@@ -34,7 +34,7 @@ def main():
     exit(0)'''
     raw_output_file = 'raw_messenger_doppler_data.csv'
     doppler_df = pd.read_csv(raw_output_file)
-    doppler_df = doppler_df[:5000]
+    doppler_df = doppler_df[:100000]
     #doppler_df = doppler_df.sample(1000)
 
     #print("3. АНАЛИЗ И ВИЗУАЛИЗАЦИЯ ДАННЫХ...")
@@ -72,19 +72,13 @@ def main():
         except Exception as e:
             print(f"Ошибка загрузки {body_name}: {e}")
 
-    '''
-    # Шаг 5: Определение временного интервала
     print("5. ОПРЕДЕЛЕНИЕ ВРЕМЕННОГО ИНТЕРВАЛА...")
     
-    # Используем время из данных Doppler
-    min_time_utc = doppler_df['time_utc'].min()
-    max_time_utc = doppler_df['time_utc'].max()
-    
-    # Преобразование в TDB
+    min_time_utc = safe_parse_time(doppler_df['time_utc'].min())
+    max_time_utc = safe_parse_time(doppler_df['time_utc'].max())
     min_time_tdb = (min_time_utc.to_julian_date() - 2451545.0) * 86400.0
     max_time_tdb = (max_time_utc.to_julian_date() - 2451545.0) * 86400.0
     
-    # Добавляем запас по времени
     t_span = [min_time_tdb, max_time_tdb]
     t_eval = np.linspace(t_span[0], t_span[1], 100000)
     
@@ -92,19 +86,13 @@ def main():
     print(f"Интервал интегрирования: {t_span[0]:.0f} - {t_span[1]:.0f} s TDB")
     print(f"Длительность: {(t_span[1]-t_span[0])/3600:.1f} часов")
     
-    # Шаг 6: Получение начальных условий и интегрирование
     print("6. ИНТЕГРИРОВАНИЕ ОРБИТЫ MESSENGER...")
     
-    # Используем среднее время как начальное
     avg_time_utc = min_time_utc + (max_time_utc - min_time_utc) / 2
     avg_time_tdb = (avg_time_utc.to_julian_date() - 2451545.0) * 86400.0
     
     
-    initial_state = get_initial_conditions_from_horizons(
-        avg_time_tdb,
-        body_interpolators['mercury'],
-        body_vel_interpolators['mercury']
-    )
+    initial_state = create_initial_state_from_horizons_data(min_time_tdb)
     
     
     orbit_result = integrate_messenger_orbit(
@@ -115,11 +103,10 @@ def main():
         print("Ошибка интегрирования орбиты. Выход.")
         return
     
-    # Создание интерполяторов для позиции и скорости КА
-    sc_pos_interp, sc_vel_interp = create_interpolators(orbit_result['times'], orbit_result['positions'], orbit_result['velocities'])'''
+    sc_pos_interp, sc_vel_interp = create_interpolators(orbit_result['times'], orbit_result['positions'], orbit_result['velocities'])
     
-    sc_pos_interp = body_interpolators['messenger']
-    sc_vel_interp = body_vel_interpolators['messenger']
+    #sc_pos_interp = body_interpolators['messenger']
+    #sc_vel_interp = body_vel_interpolators['messenger']
     
     print("7. ВЫЧИСЛЕНИЕ THEORETICAL DOPPLER С LIGHT-TIME КОРРЕКЦИЕЙ...")
     
@@ -153,9 +140,9 @@ def main():
         how='inner'
     )
     
-    output_file = 'messenger_doppler_final_results.csv'
+    #output_file = 'messenger_doppler_final_results.csv'
     #final_df.to_csv(output_file, index=False)
-    print(f"Результаты сохранены в {output_file}")
+    #print(f"Результаты сохранены в {output_file}")
     
     print("9. ВИЗУАЛИЗАЦИЯ РЕЗУЛЬТАТОВ")
     

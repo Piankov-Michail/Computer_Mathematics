@@ -8,14 +8,15 @@ from matplotlib.ticker import MaxNLocator
 
 dirname = 'plots'
 
-def plot_mercury_orbit_detailed_corrected(integration_times, spacecraft_positions, body_interpolators, R_mercury, save_flag=True):
+def plot_mercury_orbit_detailed_corrected(integration_times, spacecraft_positions, body_interpolators, R_mercury, is_true_orbit=False):
     mercury_positions = np.array([body_interpolators['mercury'](t) for t in integration_times])
     spacecraft_rel = spacecraft_positions - mercury_positions
+
     distances = np.linalg.norm(spacecraft_rel, axis=1)
 
     min_distance = np.min(distances)
     max_distance = np.max(distances)
-    #eccentricity = (max_distance - min_distance) / (max_distance + min_distance)
+    eccentricity = (max_distance - min_distance) / (max_distance + min_distance)
 
     '''
     print(f"\nMESSENGER Orbit Analysis:")
@@ -109,7 +110,7 @@ def plot_mercury_orbit_detailed_corrected(integration_times, spacecraft_position
 
     os.makedirs(dirname, exist_ok=True)
     
-    plotly_file = f'{dirname}/mercury_orbit_3d_plotly.html'
+    plotly_file = f'{dirname}/true_mercury_orbit_3d_plotly.html' if is_true_orbit else f'{dirname}/mercury_orbit_3d_plotly.html'
     fig_3d.write_html(plotly_file)
     #print(f"3D orbit plot saved as {plotly_file}")
 

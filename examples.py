@@ -9,7 +9,7 @@ from parse_csv import safe_parse_time
 from stations_positions import *
 
 from main import utc_to_tdb_seconds
-from main import solve_two_way_light_time_with_intervals, prepare_ramp_table_from_data, compute_two_way_doppler_ramped
+from lt_tw_doppler import solve_two_way_light_time_with_intervals, prepare_ramp_table_from_data, compute_two_way_doppler_ramped
 
 # Cчитывание данных для эферимидов с HORIZONS
 def get_data_from_horizons(filename = 'horizons_results_venus.txt'):
@@ -71,8 +71,8 @@ def messenger_orbit():
         except Exception as e:
             print(f"Ошибка загрузки {body_name}: {e}")
 
-    min_time_utc = safe_parse_time('2014-01-02 21:00:03.500000+00:00')
-    max_time_utc = safe_parse_time('2014-01-03 21:00:03.500000+00:00')
+    min_time_utc = safe_parse_time('2014-05-02 21:00:03.500000+00:00')
+    max_time_utc = safe_parse_time('2014-05-03 21:00:03.500000+00:00')
 
     # Преобразование в TDB
     min_time_tdb = (min_time_utc.to_julian_date() - 2451545.0) * 86400.0
@@ -81,13 +81,60 @@ def messenger_orbit():
     t_span = [min_time_tdb, max_time_tdb]
     t_eval = np.linspace(t_span[0], t_span[1], 5000)
 
-    initial_state = get_initial_conditions_from_horizons(min_time_tdb, body_interpolators['mercury'], body_vel_interpolators['mercury'])
+    initial_state = create_initial_state_from_horizons_data(t_eval[0])
 
-    print('Начальные условия (положение, скорость):\n', initial_state, '\n\n')
+    #print('Начальные условия (положение, скорость):\n', initial_state, '\n\n')
 
     orbit_result = integrate_messenger_orbit(t_span, t_eval, initial_state, body_interpolators, gms_data, radius_data)
 
     plot_mercury_orbit_detailed_corrected(orbit_result['times'], orbit_result['positions'], body_interpolators, radius_data['mercury'])
+
+
+# Настоящая орбита MESSENGER из файла horizons_results_messenger.txt
+def true_messenger_orbit():
+    messenger_times, messenger_positions, messenger_velocities, _, _ = load_horizons_data('horizons_results_messenger.txt')
+    sc_pos_interp, sc_vel_interp = create_interpolators(messenger_times, messenger_positions, messenger_velocities)
+
+    min_time_utc = safe_parse_time('2014-05-02 21:00:03.500000+00:00')
+    max_time_utc = safe_parse_time('2014-05-03 21:00:03.500000+00:00')
+
+    min_time_tdb = (min_time_utc.to_julian_date() - 2451545.0) * 86400.0
+    max_time_tdb = (max_time_utc.to_julian_date() - 2451545.0) * 86400.0
+
+    t_span = [min_time_tdb, max_time_tdb]
+    t_eval = np.linspace(t_span[0], t_span[1], 5000)
+
+    new_sc_positions = sc_pos_interp(t_eval)
+
+    ephemeris_files = {
+                'sun': 'horizons_results_sun.txt',
+                'earth': 'horizons_results_earth.txt',
+                'venus': 'horizons_results_venus.txt',
+                'mercury': 'horizons_results_mercury.txt'
+            }
+            
+    body_interpolators = {}
+    body_vel_interpolators = {}
+    body_times = {}
+    gms_data = {}
+    radius_data = {}
+
+    _, _, _, _, mercury_radius = load_horizons_data(ephemeris_files['mercury'])
+
+    for body_name, filename in ephemeris_files.items():
+        try:
+            times, positions, velocities, gms_data[body_name], radius_data[body_name] = load_horizons_data(filename)
+            pos_interp, vel_interp = create_interpolators(times, positions, velocities)
+            
+            body_interpolators[body_name] = pos_interp
+            body_vel_interpolators[body_name] = vel_interp
+            body_times[body_name] = times
+            
+        except Exception as e:
+            print(f"Ошибка загрузки {body_name}: {e}")
+
+
+    plot_mercury_orbit_detailed_corrected(t_eval, new_sc_positions, body_interpolators, radius_data['mercury'], True)
 
 
 # Графики для эферимидов
@@ -288,7 +335,9 @@ if __name__ == '__main__':
 
     #interlotation()
 
-    #messenger_orbit()
+    messenger_orbit()
+
+    true_messenger_orbit()
 
     #plot_ephirimides()
 
