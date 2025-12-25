@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
-from scipy.optimize import least_squares
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import warnings
+from ls_manual import ManualLeastSquares
 warnings.filterwarnings('ignore')
 
 class OrbitRefinementLSQ:
@@ -172,56 +172,41 @@ class OrbitRefinementLSQ:
         else:
             return residuals_array
     
-    def solve_lsq(self, initial_params, method='trf', bounds=None, 
-                  max_iter=30, ftol=1e-6, xtol=1e-6, gtol=1e-6,
-                  verbose=1):
-        from scipy.optimize import least_squares
+    def solve_manual_lsq(self, initial_params, bounds=None, 
+                        max_iter=50, verbose=True):
         
-        print("НАЧАЛО УТОЧНЕНИЯ ОРБИТЫ МЕТОДОМ НАИМЕНЬШИХ КВАДРАТОВ")
-        
-        def residuals_func(params):
-            return self.compute_residuals(params)
-        
-        print(f"Количество параметров: {len(initial_params)}")
-        print(f"Количество наблюдений (выборка): {len(self.doppler_df) if not hasattr(self, 'sample_df') else len(self.sample_df)}")
-        
-        lsq_result = least_squares(
-            residuals_func,
-            initial_params,
-            method=method,
-            bounds=bounds,
-            max_nfev=max_iter,
-            ftol=ftol,
-            xtol=xtol,
-            gtol=gtol,
-            verbose=verbose,
-            jac='2-point'  
+        solver = ManualLeastSquares(
+            residual_func=self.compute_residuals,
+            initial_params=initial_params,
+            bounds=bounds
         )
-        print("РЕЗУЛЬТАТЫ ОПТИМИЗАЦИИ")
-        print(f"Количество вызовов функции: {lsq_result.nfev}")
         
-        final_residuals = self.compute_residuals(lsq_result.x)
+        result = solver.optimize(
+            max_iter=max_iter,
+            cost_tol=1e-6,
+            param_tol=1e-8,
+            grad_tol=1e-6,
+            verbose=verbose
+        )
+        
+        final_residuals = self.compute_residuals(result['params'])
         rms = np.sqrt(np.mean(final_residuals**2))
         
-        print(f"RMS невязок: {rms:.3f} Гц")
-        print(f"Максимальная невязка: {np.max(np.abs(final_residuals)):.3f} Гц")
-        print(f"Минимальная невязка: {np.min(np.abs(final_residuals)):.3f} Гц")
+        print(f"\nФинальный RMS: {rms:.3f} Гц")
         
-        result = {
-            'success': lsq_result.success,
-            'params': lsq_result.x,
-            'initial_params': initial_params,
-            'cost': lsq_result.cost,
-            'fun': lsq_result.fun,
-            'optimality': lsq_result.optimality,
-            'nfev': lsq_result.nfev,
-            'status': lsq_result.status,
-            'message': lsq_result.message,
+        cov_matrix = solver.compute_covariance_matrix(result['params'])
+        param_errors = np.sqrt(np.diag(cov_matrix))
+        
+        return {
+            'success': True,
+            'params': result['params'],
             'residuals': final_residuals,
-            'rms': rms
+            'rms': rms,
+            'cov_matrix': cov_matrix,
+            'param_errors': param_errors,
+            'iterations': result['iterations'],
+            'history': result['history']
         }
-        
-        return result
     
     def analyze_residuals(self, residuals):
         residuals = np.array(residuals)

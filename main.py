@@ -20,10 +20,6 @@ def refine_orbit_with_lsq(doppler_df, body_interpolators, body_vel_interpolators
         dsn_stations=DSN_STATIONS
     )
     
-    print(f"\nНачальное состояние:")
-    print(f"  Положение: {initial_state[:3]} км")
-    print(f"  Скорость: {initial_state[3:]} км/с")
-    
     print("\nВычисление невязок для начального состояния...")
     initial_residuals = refinement.compute_residuals(initial_state)
     initial_rms = np.sqrt(np.mean(initial_residuals**2))
@@ -58,30 +54,22 @@ def refine_orbit_with_lsq(doppler_df, body_interpolators, body_vel_interpolators
     
     bounds = (lower_bounds, upper_bounds)
     
-    result = refinement.solve_lsq(
+    result = refinement.solve_manual_lsq(
         initial_params=initial_state,
-        method='trf',
         bounds=bounds,
-        max_iter=50,   
-        ftol=1e-6,
-        xtol=1e-6,
-        gtol=1e-6,
-        verbose=2
+        max_iter=50,
+        verbose=True
     )
     
     if result['success']:
-        print("\n" + "="*70)
         print("АНАЛИЗ РЕЗУЛЬТАТОВ УТОЧНЕНИЯ")
-        print("="*70)
         
         final_rms = result['rms']
         final_max = np.max(np.abs(result['residuals']))
         final_min = np.min(np.abs(result['residuals']))
         
         print(f"\nСРАВНЕНИЕ ДО И ПОСЛЕ УТОЧНЕНИЯ:")
-        print("-" * 50)
         print(f"{'Метрика':<25} {'До уточнения':<15} {'После уточнения':<15} {'Изменение':<15}")
-        print("-" * 50)
         print(f"{'RMS невязок (Гц)':<25} {initial_rms:<15.3f} {final_rms:<15.3f} {initial_rms-final_rms:<15.3f}")
         print(f"{'Макс. невязка (Гц)':<25} {initial_max:<15.3f} {final_max:<15.3f} {initial_max-final_max:<15.3f}")
         print(f"{'Мин. невязка (Гц)':<25} {initial_min:<15.3f} {final_min:<15.3f} {initial_min-final_min:<15.3f}")
@@ -98,23 +86,6 @@ def refine_orbit_with_lsq(doppler_df, body_interpolators, body_vel_interpolators
         print(f"Максимальная по модулю: {analysis['max_abs']:.3f} Гц")
         print(f"Медиана: {analysis['median']:.3f} Гц")
         
-        print(f"\nСРАВНЕНИЕ ПАРАМЕТРОВ ОРБИТЫ:")
-        param_names = ['rx (км)', 'ry (км)', 'rz (км)', 'vx (км/с)', 'vy (км/с)', 'vz (км/с)']
-        
-        print(f"\n{'Параметр':<15} {'Начальное':<20} {'Уточненное':<20} {'Разность':<20} {'Отн.изм.(%)':<15}")
-        print("-" * 90)
-        
-        for i, name in enumerate(param_names):
-            initial_val = initial_state[i]
-            final_val = result['params'][i]
-            diff = final_val - initial_val
-            
-            if abs(initial_val) > 1e-10:
-                rel_change = (diff / abs(initial_val)) * 100
-            else:
-                rel_change = 0.0
-            
-            print(f"{name:<15} {initial_val:<20.6f} {final_val:<20.6f} {diff:<20.6f} {rel_change:<15.6f}")
         
         refined_state = result['params']
         print(f"\nУточненное состояние успешно получено")
@@ -287,7 +258,7 @@ def main():
                         
                         improvement = ((rms_initial - rms_final) / rms_initial * 100) if rms_initial > 0 else 0
                         
-                        print(f"{station_name:<20} RMS: {rms_initial:7.3f} → {rms_final:7.3f} Гц")
+                        print(f"{station_name:<20} RMS: {rms_initial:7.3f} {rms_final:7.3f} Гц")
         else:
             print("Ошибка интегрирования уточненной орбиты")
     else:
