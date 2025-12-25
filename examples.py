@@ -218,6 +218,23 @@ def test_light_time():
 
     #print(filtered_df.head())
 
+    times, positions, velocities, gm, radius = load_horizons_data('horizons_results_earth.txt')
+    position_interpolator, velocity_interpolator = create_interpolators(times, positions, velocities)
+
+    sun_times, sun_positions, sun_velocities, sun_gm, sun_radius = load_horizons_data('horizons_results_sun.txt')
+    sun_position_interpolator, sun_velocity_interpolator = create_interpolators(times, positions, velocities)
+    
+    sc_times, sc_positions, sc_velocities, sc_gm, sc_radius = load_horizons_data('horizons_results_messenger.txt')
+    sc_position_interpolator, sc_velocity_interpolator = create_interpolators(sc_times, sc_positions, sc_velocities)
+
+    body_interpolator = {}
+    body_interpolator['earth'] = position_interpolator
+    body_velocity = {}
+    body_velocity['earth'] = velocity_interpolator
+
+    body_interpolator['sun'] = sun_position_interpolator
+    body_velocity['sun'] = sun_velocity_interpolator
+
     for i in range(min(len(filtered_df), 1), min(len(filtered_df), 5)):
         time = filtered_df['time_utc'][i]
         station_id = filtered_df['station_id'][i]
@@ -227,18 +244,10 @@ def test_light_time():
         print('Time: ', time)
         print('Station id: ', station_id)
 
-        times, positions, velocities, gm, radius = load_horizons_data('horizons_results_earth.txt')
-        position_interpolator, velocity_interpolator = create_interpolators(times, positions, velocities)
-        
-        sc_times, sc_positions, sc_velocities, sc_gm, sc_radius = load_horizons_data('horizons_results_messenger.txt')
-        sc_position_interpolator, sc_velocity_interpolator = create_interpolators(sc_times, sc_positions, sc_velocities)
-
-        body_interpolator = {}
-        body_interpolator['earth'] = position_interpolator
-        body_velocity = {}
-        body_velocity['earth'] = velocity_interpolator
-
-        gm_data = {'earth': gm}
+        gm_data = {
+            'earth': gm,
+            'sun': sun_gm
+                   }
 
         print(f'{solve_two_way_light_time_with_intervals(time, Tc, station_id, body_interpolator, body_velocity, sc_position_interpolator, sc_velocity_interpolator, gm_data)['total_light_time']:.3f} s', end='\n\n')
 
@@ -248,6 +257,8 @@ def test_two_way_doppler():
     df = pd.read_csv('raw_messenger_doppler_data.csv')
 
     filtered_df = df[df['station_id'] == 25].reset_index(drop=True)
+
+    filtered_df = filtered_df[:100]
 
     ephemeris_files = {
                 'sun': 'horizons_results_sun.txt',
@@ -278,10 +289,35 @@ def test_two_way_doppler():
         except Exception as e:
             print(f"Ошибка загрузки {body_name}: {e}")
 
+    min_time_utc = safe_parse_time(filtered_df['time_utc'].min())
+    max_time_utc = safe_parse_time(filtered_df['time_utc'].max())
+    min_time_tdb = (min_time_utc.to_julian_date() - 2451545.0) * 86400.0
+    max_time_tdb = (max_time_utc.to_julian_date() - 2451545.0) * 86400.0
+
+    avg_time_utc = min_time_utc + (max_time_utc - min_time_utc) / 2
+    avg_time_tdb = (avg_time_utc.to_julian_date() - 2451545.0) * 86400.0
+    
+    t_span = [min_time_tdb, max_time_tdb]
+    t_eval = np.linspace(t_span[0], t_span[1], 100000)
+
     ramp_table = prepare_ramp_table_from_data(filtered_df)
 
-    sc_pos_interp = body_interpolators['messenger']
-    sc_vel_interp = body_vel_interpolators['messenger']
+    avg_time_utc = min_time_utc + (max_time_utc - min_time_utc) / 2
+    avg_time_tdb = (avg_time_utc.to_julian_date() - 2451545.0) * 86400.0
+    
+    
+    initial_state = create_initial_state_from_horizons_data(min_time_tdb)
+    
+    
+    orbit_result = integrate_messenger_orbit(
+        t_span, t_eval, initial_state, body_interpolators, gms_data, radius_data
+    )
+    
+    if not orbit_result['success']:
+        print("Ошибка интегрирования орбиты. Выход.")
+        return
+    
+    sc_pos_interp, sc_vel_interp = create_interpolators(orbit_result['times'], orbit_result['positions'], orbit_result['velocities'])
 
     gms_data.pop('messenger')
 
@@ -335,9 +371,9 @@ if __name__ == '__main__':
 
     #interlotation()
 
-    messenger_orbit()
+    #messenger_orbit()
 
-    true_messenger_orbit()
+    #true_messenger_orbit()
 
     #plot_ephirimides()
 

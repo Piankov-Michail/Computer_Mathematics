@@ -11,9 +11,11 @@ from messener_orbit import *
 from create_graphs import *
 from parse_csv import *
 from stations_positions import *
+
 c = 299792.458
 MESSENGER_XBAND_HIGH_FREQ = 8445.734e6
 RAMPED_DOPPLER_DATA_TYPE = 12
+
 def utc_to_tdb_seconds(utc_time):
     if isinstance(utc_time, str):
         if utc_time.endswith('+00:00'):
@@ -179,6 +181,7 @@ def compute_doppler_reference_frequency(f_T, uplink_band, downlink_band, f_type=
 def compute_two_way_doppler_ramped(t_receive_utc, Tc, station_id, uplink_band, downlink_band, \
                                    ramp_table, body_interpolators, body_vel_interpolators, sc_pos_interp,\
                                       sc_vel_interp, GM_params, row_data=None):
+    
     M2, M2R = get_transponder_ratios(uplink_band, downlink_band)
     
     light_time_solution = solve_two_way_light_time_with_intervals(
@@ -222,6 +225,7 @@ def compute_two_way_doppler_ramped(t_receive_utc, Tc, station_id, uplink_band, d
 
 def compute_one_way_doppler(t_receive_utc, Tc, station_id, downlink_band, \
                             spacecraft_freq_params, ramp_table):
+    
     f_T0 = spacecraft_freq_params.get('f_T0', 0)
     delta_f_T0 = spacecraft_freq_params.get('delta_f_T0', 0)
     f_T1 = spacecraft_freq_params.get('f_T1', 0)
@@ -252,6 +256,7 @@ def compute_one_way_doppler(t_receive_utc, Tc, station_id, downlink_band, \
 
 def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_interpolators, \
                                      sc_pos_interp, sc_vel_interp, GM_params, ramp_table):
+    
     results = []
     
     test_df = doppler_df
@@ -372,6 +377,7 @@ def prepare_ramp_table_from_data(df):
 
 def solve_two_way_light_time_with_intervals(t_receive_utc, Tc, station_id, \
             body_interpolators, body_vel_interpolators,sc_pos_interp, sc_vel_interp, GM_params):
+    
     t3_tdb = utc_to_tdb_seconds(t_receive_utc)
 
     t3_center = t3_tdb

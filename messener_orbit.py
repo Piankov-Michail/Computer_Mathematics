@@ -76,6 +76,7 @@ def equations_of_motion_corrected(
     state: np.ndarray,
     mercury_pos_interp, sun_pos_interp, earth_pos_interp, venus_pos_interp,
     GM_sun: float, GM_mercury: float, GM_earth: float, GM_venus: float, R_mercury: float) -> np.ndarray:
+    
     r_sc = state[0:3]
     v_sc = state[3:6]
     

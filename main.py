@@ -49,8 +49,7 @@ def main():
                 'venus': 'horizons_results_venus.txt',
                 'mercury': 'horizons_results_mercury.txt',
                 'jupiter': 'horizons_results_jupiter.txt',
-                'mars': 'horizons_results_mars.txt',
-                'messenger': 'horizons_results_messenger.txt'
+                'mars': 'horizons_results_mars.txt'
             }
 
     body_interpolators = {}
@@ -91,9 +90,7 @@ def main():
     avg_time_utc = min_time_utc + (max_time_utc - min_time_utc) / 2
     avg_time_tdb = (avg_time_utc.to_julian_date() - 2451545.0) * 86400.0
     
-    
     initial_state = create_initial_state_from_horizons_data(min_time_tdb)
-    
     
     orbit_result = integrate_messenger_orbit(
         t_span, t_eval, initial_state, body_interpolators, gms_data, radius_data
@@ -109,8 +106,6 @@ def main():
     #sc_vel_interp = body_vel_interpolators['messenger']
     
     print("7. ВЫЧИСЛЕНИЕ THEORETICAL DOPPLER С LIGHT-TIME КОРРЕКЦИЕЙ...")
-    
-    gms_data.pop('messenger')
 
     ramp_table = prepare_ramp_table_from_data(doppler_df)
 
