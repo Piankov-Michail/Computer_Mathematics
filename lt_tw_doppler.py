@@ -201,7 +201,8 @@ def compute_two_way_doppler_ramped(t_receive_utc, Tc, station_id, uplink_band, d
     integral_fT_t3 = integrate_ramped_frequency(t3_start, t3_end, ramp_table, station_id, row_data)
     avg_fT_t3 = integral_fT_t3 / (t3_end - t3_start)
 
-    term1 = (M2R / Tc) * integral_fT_t3
+    #term1 = (M2R / Tc) * integral_fT_t3
+    term1 = M2R*row_data['reference_frequency_hz']
     term2 = (M2 / Tc) * integral_fT_t1
     
     F_theory = term1 - term2
