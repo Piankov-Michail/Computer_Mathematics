@@ -12,6 +12,17 @@ from create_graphs import *
 from parse_csv import *
 from stations_positions import *
 
+import logging
+import traceback
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    filename='doppler_debug.log',
+    filemode='w'
+)
+logger = logging.getLogger('lt_tw_doppler')
+
 c = 299792.458
 MESSENGER_XBAND_HIGH_FREQ = 8445.734e6
 RAMPED_DOPPLER_DATA_TYPE = 12
@@ -73,37 +84,35 @@ def compute_ramped_frequency(t, ramp_table, station_id):
     return None
 
 def integrate_ramped_frequency(t_start, t_end, ramp_table, station_id, row_data=None):
+    """Integrate frequency over time interval with detailed logging"""
+    logger.debug(f"Integrating frequency for station {station_id} from {t_start:.6f} to {t_end:.6f} seconds")
     W = t_end - t_start
+    logger.debug(f"Integration window width: {W:.6f} seconds")
     
     station_ramps = [r for r in ramp_table if r['station_id'] == station_id]
+    logger.debug(f"Found {len(station_ramps)} ramps for station {station_id}")
     
     if not station_ramps:
+        logger.warning("No ramps found - using fallback frequency")
         base_freq = 7165.0e6
         ramp_rate = 0.0
         if row_data and 'ramp_rate_hz_s' in row_data and pd.notna(row_data['ramp_rate_hz_s']):
             ramp_rate = float(row_data['ramp_rate_hz_s'])
+            logger.debug(f"Using ramp rate from row data: {ramp_rate:.3f} Hz/s")
         
         result = base_freq * W + 0.5 * ramp_rate * W**2
+        logger.debug(f"Fallback integration result: {result:.3f} Hz·s")
         return result
     
+    # Sort ramps by start time
     station_ramps.sort(key=lambda x: x['start_time'])
+    logger.debug("Sorted station ramps by start time")
     
-    first_ramp = station_ramps[0]
-    t0 = first_ramp['start_time']
-    f0_initial = first_ramp['start_freq']
-    f_dot_initial = first_ramp['ramp_rate']
-    
-    if t_start >= t0:
-        ts = t_start
-        f0_ts = f0_initial + f_dot_initial * (ts - t0)
-    else:
-        ts = t_start
-        f0_ts = f0_initial + f_dot_initial * (ts - t0)
-    
+    # Find relevant ramps within integration window
     ramps_to_use = []
     current_time = t_start
-
-    for idx, ramp in enumerate(station_ramps):
+    
+    for ramp in station_ramps:
         if ramp['end_time'] <= t_start:
             continue
         if ramp['start_time'] >= t_end:
@@ -117,9 +126,11 @@ def integrate_ramped_frequency(t_start, t_end, ramp_table, station_id, row_data=
             'station_id': ramp['station_id']
         }
         
+        # Adjust start frequency if segment starts after ramp start
         if segment['start_time'] > ramp['start_time']:
             time_offset = segment['start_time'] - ramp['start_time']
             segment['start_freq'] += segment['ramp_rate'] * time_offset
+            logger.debug(f"Adjusted start frequency for partial ramp: {segment['start_freq']/1e6:.6f} MHz")
         
         ramps_to_use.append(segment)
         current_time = segment['end_time']
@@ -127,31 +138,38 @@ def integrate_ramped_frequency(t_start, t_end, ramp_table, station_id, row_data=
         if current_time >= t_end:
             break
     
+    logger.debug(f"Using {len(ramps_to_use)} ramp segments for integration")
+    
     if not ramps_to_use:
+        logger.warning("No ramps fully within window - using closest ramp")
         closest_ramp = min(station_ramps, key=lambda r: abs((r['start_time'] + r['end_time'])/2 - (t_start + t_end)/2))
         ramp_rate = closest_ramp['ramp_rate']
         t_mid = (t_start + t_end) / 2
         f_mid = closest_ramp['start_freq'] + ramp_rate * (t_mid - closest_ramp['start_time'])
         result = f_mid * W + 0.5 * ramp_rate * W**2
+        logger.debug(f"Closest ramp integration: {result:.3f} Hz·s")
         return result
 
+    # Calculate segment widths
     Wi_list = []
-    
     for i in range(len(ramps_to_use) - 1):
         segment = ramps_to_use[i]
         Wi = segment['end_time'] - segment['start_time']
         Wi_list.append(Wi)
+        logger.debug(f"Segment {i} width: {Wi:.6f} s")
 
     if len(ramps_to_use) > 1:
         total_width = sum(Wi_list)
         Wn = W - total_width
         Wi_list.append(Wn)
+        logger.debug(f"Final segment width: {Wn:.6f} s")
     else:
         Wn = W
         Wi_list = [Wn]
+        logger.debug(f"Single segment width: {Wn:.6f} s")
 
+    # Perform integration
     integral = 0.0
-
     for i, segment in enumerate(ramps_to_use):
         if i >= len(Wi_list) or Wi_list[i] <= 0:
             continue
@@ -160,12 +178,18 @@ def integrate_ramped_frequency(t_start, t_end, ramp_table, station_id, row_data=
         f0_segment = segment['start_freq']
         f_dot_segment = segment['ramp_rate']
         
+        # Frequency at segment midpoint
         fi = f0_segment + 0.5 * f_dot_segment * Wi
         
         segment_integral = fi * Wi
         integral += segment_integral
         
+        logger.debug(f"Segment {i}: start_freq={f0_segment/1e6:.6f} MHz, "
+                    f"ramp_rate={f_dot_segment:.3f} Hz/s, width={Wi:.6f}s, "
+                    f"integral={segment_integral:.3f} Hz·s")
+    
     total_integral = integral
+    logger.debug(f"Total integrated frequency: {total_integral:.3f} Hz·s")
     return total_integral
 
 def compute_doppler_reference_frequency(f_T, uplink_band, downlink_band, f_type='transmitter'):
@@ -178,50 +202,93 @@ def compute_doppler_reference_frequency(f_T, uplink_band, downlink_band, f_type=
     else:
         raise ValueError(f"Неизвестный тип частоты: {f_type}")
 
-def compute_two_way_doppler_ramped(t_receive_utc, Tc, station_id, uplink_band, downlink_band, \
-                                   ramp_table, body_interpolators, body_vel_interpolators, sc_pos_interp,\
-                                      sc_vel_interp, GM_params, row_data=None):
+def compute_two_way_doppler_ramped(t_receive_utc, Tc, station_id, uplink_band, downlink_band, 
+                                  ramp_table, body_interpolators, body_vel_interpolators, 
+                                  sc_pos_interp, sc_vel_interp, GM_params, row_data=None):
+    """Compute two-way Doppler with ramped frequencies and detailed logging"""
+    logger.info(f"Computing two-way Doppler for station {station_id} at {t_receive_utc}")
+    logger.debug(f"Parameters: Tc={Tc}, uplink_band={uplink_band}, downlink_band={downlink_band}")
     
-    M2, M2R = get_transponder_ratios(uplink_band, downlink_band)
+    try:
+        M2, M2R = get_transponder_ratios(uplink_band, downlink_band)
+        logger.debug(f"Transponder ratios: M2={M2:.6f}, M2R={M2R:.6f}")
+        
+        # Log ramp table status
+        logger.debug(f"Ramp table contains {len(ramp_table)} entries for station {station_id}")
+        station_ramps = [r for r in ramp_table if r['station_id'] == station_id]
+        if station_ramps:
+            logger.debug(f"Found {len(station_ramps)} relevant ramps for station {station_id}")
+            for ramp in station_ramps:
+                logger.debug(f"Ramp: start={ramp['start_time']:.2f}, end={ramp['end_time']:.2f}, "
+                            f"freq={ramp['start_freq']/1e6:.3f} MHz, rate={ramp['ramp_rate']:.3f} Hz/s")
+        else:
+            logger.warning(f"No ramps found for station {station_id}, using fallback values")
+        
+        # Solve light time problem
+        logger.debug("Solving two-way light time problem...")
+        light_time_solution = solve_two_way_light_time_with_intervals(
+            t_receive_utc, Tc, station_id,
+            body_interpolators, body_vel_interpolators,
+            sc_pos_interp, sc_vel_interp, GM_params
+        )
+        
+        # Log light time solution details
+        logger.debug(f"Light time solution computed:")
+        logger.debug(f"  T1 interval: [{light_time_solution['t1_start_tdb']:.6f}, {light_time_solution['t1_end_tdb']:.6f}]")
+        logger.debug(f"  T3 interval: [{light_time_solution['t3_start_tdb']:.6f}, {light_time_solution['t3_end_tdb']:.6f}]")
+        logger.debug(f"  Total light time: {light_time_solution['total_light_time']:.6f} s")
+        logger.debug(f"  Distance: {light_time_solution['distance_km']:.3f} km")
+        logger.debug(f"  Range rate: {light_time_solution['range_rate_kms']:.6f} km/s")
+        
+        # Compute frequency integrals
+        logger.debug("Calculating frequency integrals for T1 interval...")
+        integral_fT_t1 = integrate_ramped_frequency(
+            light_time_solution['t1_start_tdb'], 
+            light_time_solution['t1_end_tdb'], 
+            ramp_table, station_id, row_data
+        )
+        avg_fT_t1 = integral_fT_t1 / (light_time_solution['t1_end_tdb'] - light_time_solution['t1_start_tdb'])
+        logger.debug(f"T1 integral: {integral_fT_t1:.3f} Hz·s, avg freq: {avg_fT_t1/1e6:.6f} MHz")
+        
+        logger.debug("Calculating frequency integrals for T3 interval...")
+        integral_fT_t3 = integrate_ramped_frequency(
+            light_time_solution['t3_start_tdb'], 
+            light_time_solution['t3_end_tdb'], 
+            ramp_table, station_id, row_data
+        )
+        avg_fT_t3 = integral_fT_t3 / (light_time_solution['t3_end_tdb'] - light_time_solution['t3_start_tdb'])
+        logger.debug(f"T3 integral: {integral_fT_t3:.3f} Hz·s, avg freq: {avg_fT_t3/1e6:.6f} MHz")
+        
+        # Calculate theoretical Doppler
+        term1 = (M2R / Tc) * integral_fT_t3
+        term2 = (M2 / Tc) * integral_fT_t1
+        F_theory = term1 - term2
+        logger.debug(f"Doppler terms: term1={term1:.6f}, term2={term2:.6f}, F_theory={F_theory:.6f} Hz")
+        
+        result = {
+            'theoretical_doppler_hz': F_theory,
+            'light_time_s': light_time_solution['total_light_time'],
+            'distance_km': light_time_solution['distance_km'],
+            'range_rate_kms': light_time_solution['range_rate_kms'],
+            'M2': M2,
+            'M2R': M2R,
+            'transmit_freq_hz': avg_fT_t1,
+            'receive_freq_hz': avg_fT_t3,
+            'integral_fT_t1': integral_fT_t1,
+            'integral_fT_t3': integral_fT_t3,
+            't1_start_tdb': light_time_solution['t1_start_tdb'],
+            't1_end_tdb': light_time_solution['t1_end_tdb'],
+            't3_start_tdb': light_time_solution['t3_start_tdb'],
+            't3_end_tdb': light_time_solution['t3_end_tdb']
+        }
+        
+        logger.info(f"Successfully computed Doppler: {F_theory:.6f} Hz")
+        return result
     
-    light_time_solution = solve_two_way_light_time_with_intervals(
-        t_receive_utc, Tc, station_id,
-        body_interpolators, body_vel_interpolators,
-        sc_pos_interp, sc_vel_interp, GM_params
-    )
-
-    t1_start = light_time_solution['t1_start_tdb']
-    t1_end = light_time_solution['t1_end_tdb']
-    t3_start = light_time_solution['t3_start_tdb']
-    t3_end = light_time_solution['t3_end_tdb']
-
-    integral_fT_t1 = integrate_ramped_frequency(t1_start, t1_end, ramp_table, station_id, row_data)
-    avg_fT_t1 = integral_fT_t1 / (t1_end - t1_start)
-
-    integral_fT_t3 = integrate_ramped_frequency(t3_start, t3_end, ramp_table, station_id, row_data)
-    avg_fT_t3 = integral_fT_t3 / (t3_end - t3_start)
-
-    term1 = (M2R / Tc) * integral_fT_t3
-    term2 = (M2 / Tc) * integral_fT_t1
-    
-    F_theory = term1 - term2
-
-    return {
-        'theoretical_doppler_hz': F_theory,
-        'light_time_s': light_time_solution['total_light_time'],
-        'distance_km': light_time_solution['distance_km'],
-        'range_rate_kms': light_time_solution['range_rate_kms'],
-        'M2': M2,
-        'M2R': M2R,
-        'transmit_freq_hz': avg_fT_t1,
-        'receive_freq_hz': avg_fT_t3,
-        'integral_fT_t1': integral_fT_t1,
-        'integral_fT_t3': integral_fT_t3,
-        't1_start_tdb': t1_start,
-        't1_end_tdb': t1_end,
-        't3_start_tdb': t3_start,
-        't3_end_tdb': t3_end
-    }
+    except Exception as e:
+        logger.error(f"Doppler computation failed at {t_receive_utc} for station {station_id}: {str(e)}")
+        logger.error(traceback.format_exc())
+        raise
 
 def compute_one_way_doppler(t_receive_utc, Tc, station_id, downlink_band, \
                             spacecraft_freq_params, ramp_table):
@@ -254,14 +321,19 @@ def compute_one_way_doppler(t_receive_utc, Tc, station_id, downlink_band, \
     
     return F1
 
-def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_interpolators, \
+def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_interpolators, 
                                      sc_pos_interp, sc_vel_interp, GM_params, ramp_table):
+    """Process Doppler data with detailed logging"""
+    logger.info(f"Processing {len(doppler_df)} Doppler measurements")
+    logger.debug(f"GM parameters: {GM_params}")
     
     results = []
     
-    test_df = doppler_df
-    for idx, row in tqdm(test_df.iterrows(), total=test_df.shape[0], desc="Processing Doppler"):
+    for idx, row in tqdm(doppler_df.iterrows(), total=doppler_df.shape[0], desc="Processing Doppler"):
         try:
+            logger.info(f"Processing row {idx+1}/{len(doppler_df)} at {row['time_utc']}")
+            logger.debug(f"Row data: {row.to_dict()}")
+            
             theoretical_result = compute_two_way_doppler_ramped(
                 t_receive_utc=row['time_utc'],
                 Tc=row['compression_time_s'],
@@ -281,6 +353,10 @@ def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_in
             measured_doppler = row['observable_hz']
             residual = abs(measured_doppler - theoretical_doppler)
             
+            logger.info(f"Measurement: {measured_doppler:.6f} Hz, "
+                       f"Theoretical: {theoretical_doppler:.6f} Hz, "
+                       f"Residual: {residual:.6f} Hz")
+            
             result = {
                 'time_utc': row['time_utc'],
                 'station_id': row['station_id'],
@@ -288,18 +364,22 @@ def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_in
                 'theoretical_doppler_hz': float(theoretical_doppler),
                 'doppler_residual_hz': float(residual),
                 'light_time_s': float(theoretical_result.get('light_time_s', 0)),
+                'distance_km': float(theoretical_result.get('distance_km', 0)),
+                'range_rate_kms': float(theoretical_result.get('range_rate_kms', 0))
             }
             
             results.append(result)
             
         except Exception as e:
-            import traceback
-            traceback.print_exc()
+            logger.error(f"Failed to process row {idx}: {str(e)}")
+            logger.error(traceback.format_exc())
             continue
     
     if not results:
+        logger.error("No successful Doppler computations")
         return pd.DataFrame()
     
+    logger.info(f"Successfully processed {len(results)}/{len(doppler_df)} measurements")
     results_df = pd.DataFrame(results)
     return results_df
 
@@ -375,123 +455,140 @@ def prepare_ramp_table_from_data(df):
     
     return ramp_table
 
-def solve_two_way_light_time_with_intervals(t_receive_utc, Tc, station_id, \
-            body_interpolators, body_vel_interpolators,sc_pos_interp, sc_vel_interp, GM_params):
+def solve_two_way_light_time_with_intervals(t_receive_utc, Tc, station_id, 
+            body_interpolators, body_vel_interpolators, sc_pos_interp, sc_vel_interp, GM_params):
+    """Solve two-way light time problem with detailed logging"""
+    logger.debug(f"Solving light time for {t_receive_utc}, station {station_id}, Tc={Tc}")
     
-    t3_tdb = utc_to_tdb_seconds(t_receive_utc)
-
-    t3_center = t3_tdb
-    t3_start = t3_center - Tc/2
-    t3_end = t3_center + Tc/2
-    
-    r_station_t3 = get_station_barycentric_pos(t3_center, station_id, body_interpolators)
-    
-    r_sc_approx = sc_pos_interp(t3_center)
-    
-    distance_approx = np.linalg.norm(r_sc_approx - r_station_t3)
-    tau_D_approx = distance_approx / c
-
-    t2_approx = t3_center - tau_D_approx
-
-    tau_D_prev = 0
-    max_iter = 10
-    tol = 1e-9
-    
-    for iter_num in range(max_iter):
+    try:
+        t3_tdb = utc_to_tdb_seconds(t_receive_utc)
+        logger.debug(f"Receive time (TDB): {t3_tdb:.6f} seconds")
         
-        r_sc_t2 = sc_pos_interp(t2_approx)
-
-        rho_D = r_sc_t2 - r_station_t3
-        geometric_distance = np.linalg.norm(rho_D)
-
-        geometric_tau_D = geometric_distance / c
+        t3_center = t3_tdb
+        t3_start = t3_center - Tc/2
+        t3_end = t3_center + Tc/2
+        logger.debug(f"T3 interval: [{t3_start:.6f}, {t3_end:.6f}] seconds")
         
-        delta_tau_D = compute_light_time_corrections(
-            t2_approx, t3_center, r_sc_t2, r_station_t3, 
-            body_interpolators, GM_params, leg='down'
-        )
+        # Get station position at receive time
+        r_station_t3 = get_station_barycentric_pos(t3_center, station_id, body_interpolators)
+        logger.debug(f"Station {station_id} position at T3: {r_station_t3} km")
         
-        tau_D = geometric_tau_D + delta_tau_D
-
-        t2_new = t3_center - tau_D
+        # Approximate spacecraft position
+        r_sc_approx = sc_pos_interp(t3_center)
+        logger.debug(f"Approx spacecraft position: {r_sc_approx} km")
         
-        if abs(tau_D - tau_D_prev) < tol:
-            break
+        distance_approx = np.linalg.norm(r_sc_approx - r_station_t3)
+        tau_D_approx = distance_approx / c
+        logger.debug(f"Initial down-leg light time estimate: {tau_D_approx:.6f} s")
         
-        tau_D_prev = tau_D
-        t2_approx = t2_new
-    
-    t2_center = t2_new
-    r_sc_t2 = sc_pos_interp(t2_center)
-    v_sc_t2 = sc_vel_interp(t2_center)
-
-    tau_U_approx = tau_D
-   
-    t1_approx = t2_center - tau_U_approx
-
-    tau_U_prev = 0
-    
-    for iter_num in range(max_iter):
-        r_station_t1 = get_station_barycentric_pos(t1_approx, station_id, body_interpolators)
-
-        rho_U = r_sc_t2 - r_station_t1
-        geometric_distance_up = np.linalg.norm(rho_U)
-
-        geometric_tau_U = geometric_distance_up / c
-
-        delta_tau_U = compute_light_time_corrections(
-            t1_approx, t2_center, r_station_t1, r_sc_t2,
-            body_interpolators, GM_params, leg='up'
-        )
-
-        tau_U = geometric_tau_U + delta_tau_U
-
-        t1_new = t2_center - tau_U
-
-        if abs(tau_U - tau_U_prev) < tol:
-            break
+        # Down-leg iteration
+        t2_approx = t3_center - tau_D_approx
+        tau_D_prev = 0
+        logger.debug("Starting down-leg light time iteration...")
         
-        tau_U_prev = tau_U
-        t1_approx = t1_new
+        for iter_num in range(10):
+            r_sc_t2 = sc_pos_interp(t2_approx)
+            rho_D = r_sc_t2 - r_station_t3
+            geometric_distance = np.linalg.norm(rho_D)
+            geometric_tau_D = geometric_distance / c
+            
+            delta_tau_D = compute_light_time_corrections(
+                t2_approx, t3_center, r_sc_t2, r_station_t3, 
+                body_interpolators, GM_params, leg='down'
+            )
+            
+            tau_D = geometric_tau_D + delta_tau_D
+            t2_new = t3_center - tau_D
+            
+            logger.debug(f"Iter {iter_num}: t2={t2_new:.6f}, tau_D={tau_D:.9f}, "
+                        f"geometric={geometric_tau_D:.9f}, correction={delta_tau_D:.9f}")
+            
+            if abs(tau_D - tau_D_prev) < 1e-9:
+                logger.debug(f"Down-leg converged in {iter_num} iterations")
+                break
+                
+            tau_D_prev = tau_D
+            t2_approx = t2_new
+        else:
+            logger.warning("Down-leg iteration reached max iterations without convergence")
+        
+        t2_center = t2_new
+        r_sc_t2 = sc_pos_interp(t2_center)
+        v_sc_t2 = sc_vel_interp(t2_center)
+        logger.debug(f"Spacecraft state at T2: pos={r_sc_t2}, vel={v_sc_t2} km/s")
+        
+        # Up-leg iteration
+        tau_U_approx = tau_D
+        t1_approx = t2_center - tau_U_approx
+        tau_U_prev = 0
+        logger.debug("Starting up-leg light time iteration...")
+        
+        for iter_num in range(10):
+            r_station_t1 = get_station_barycentric_pos(t1_approx, station_id, body_interpolators)
+            rho_U = r_sc_t2 - r_station_t1
+            geometric_distance_up = np.linalg.norm(rho_U)
+            geometric_tau_U = geometric_distance_up / c
+            
+            delta_tau_U = compute_light_time_corrections(
+                t1_approx, t2_center, r_station_t1, r_sc_t2,
+                body_interpolators, GM_params, leg='up'
+            )
+            
+            tau_U = geometric_tau_U + delta_tau_U
+            t1_new = t2_center - tau_U
+            
+            logger.debug(f"Iter {iter_num}: t1={t1_new:.6f}, tau_U={tau_U:.9f}, "
+                        f"geometric={geometric_tau_U:.9f}, correction={delta_tau_U:.9f}")
+            
+            if abs(tau_U - tau_U_prev) < 1e-9:
+                logger.debug(f"Up-leg converged in {iter_num} iterations")
+                break
+                
+            tau_U_prev = tau_U
+            t1_approx = t1_new
+        else:
+            logger.warning("Up-leg iteration reached max iterations without convergence")
+        
+        t1_center = t1_new
+        t1_start = t1_center - Tc/2
+        t1_end = t1_center + Tc/2
+        
+        # Calculate range rate
+        r_vec = r_station_t3 - r_sc_t2
+        distance = np.linalg.norm(r_vec)
+        r_hat = r_vec / distance if distance > 0 else np.zeros(3)
+        v_station_t3 = get_station_velocity(t3_center, station_id, body_vel_interpolators)
+        range_rate = np.dot(v_station_t3 - v_sc_t2, r_hat)
+        
+        total_light_time = tau_D + tau_U
+        
+        return {
+            't0_tdb': t1_center,
+            't1_start_tdb': t1_start,
+            't1_end_tdb': t1_end,
+            't1_center_tdb': t1_center,
+            't2_center_tdb': t2_center,
+            't3_start_tdb': t3_start,
+            't3_center_tdb': t3_center,
+            't3_end_tdb': t3_end,
+            't3_tdb': t3_center,
+            'light_time_up': tau_U,
+            'light_time_down': tau_D,
+            'total_light_time': total_light_time,
+            'distance_km': distance,
+            'range_rate_kms': range_rate,
+            'r_sc_transmit': r_sc_t2,
+            'sc_velocity': v_sc_t2,
+            'r_station_receive': r_station_t3,
+            'station_velocity': v_station_t3
+        }
     
-    t1_center = t1_new
-    
-    t1_start = t1_center - Tc/2
-    t1_end = t1_center + Tc/2
-    
-    r_vec = r_station_t3 - r_sc_t2
-    distance = np.linalg.norm(r_vec)
-    r_hat = r_vec / distance if distance > 0 else np.zeros(3)
-    
-    v_station_t3 = get_station_velocity(t3_center, station_id, body_vel_interpolators)
-    range_rate = np.dot(v_station_t3 - v_sc_t2, r_hat)
-    
-    total_light_time = tau_D + tau_U
-
-    return {
-        't0_tdb': t1_center,
-        't1_start_tdb': t1_start,
-        't1_end_tdb': t1_end,
-        't1_center_tdb': t1_center,
-        't2_center_tdb': t2_center,
-        't3_start_tdb': t3_start,
-        't3_center_tdb': t3_center,
-        't3_end_tdb': t3_end,
-        't3_tdb': t3_center,
-        'light_time_up': tau_U,
-        'light_time_down': tau_D,
-        'total_light_time': total_light_time,
-        'distance_km': distance,
-        'range_rate_kms': range_rate,
-        'r_sc_transmit': r_sc_t2,
-        'sc_velocity': v_sc_t2,
-        'r_station_receive': r_station_t3,
-        'station_velocity': v_station_t3
-    }
+    except Exception as e:
+        logger.error(traceback.format_exc())
+        raise
 
 def compute_light_time_corrections(t_emit, t_obs, r_emit, r_obs, body_interpolators, GM_params, leg='up'):
     total_correction = 0.0
-    
     gamma = 1.0
     
     for body_name, gm in GM_params.items():
@@ -513,16 +610,17 @@ def compute_light_time_corrections(t_emit, t_obs, r_emit, r_obs, body_interpolat
             if denominator > 0:
                 shapiro_delay = ((1 + gamma) * gm / (c**3)) * np.log(numerator / denominator)
                 total_correction += shapiro_delay
-
+    
+    # Solar corona correction for up-leg
     if leg == 'up':
         solar_corona_correction = estimate_solar_corona_delay(t_emit, t_obs, r_emit, r_obs, body_interpolators)
         total_correction += solar_corona_correction
     
-    if leg in ['up', 'down']:
-        troposphere_correction = 0.002
-        ionosphere_correction = 0.001
-        atmospheric_correction = (troposphere_correction + ionosphere_correction) / 1000.0
-        total_correction += atmospheric_correction
+    # Atmospheric corrections
+    troposphere_correction = 0.002  # seconds
+    ionosphere_correction = 0.001  # seconds
+    atmospheric_correction = (troposphere_correction + ionosphere_correction) / 1000.0
+    total_correction += atmospheric_correction
     
     return total_correction
 

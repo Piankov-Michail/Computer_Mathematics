@@ -128,7 +128,7 @@ def refine_orbit_with_lsq(doppler_df, body_interpolators, body_vel_interpolators
 def main():
     raw_output_file = 'raw_messenger_doppler_data.csv'
     doppler_df = pd.read_csv(raw_output_file)
-    doppler_df = doppler_df[:10000]
+    doppler_df = doppler_df[10000:10010]
 
     print("3. АНАЛИЗ И ВИЗУАЛИЗАЦИЯ ДАННЫХ...")
     
@@ -206,6 +206,40 @@ def main():
         gms_data,
         ramp_table
     )
+
+    print("8. СОХРАНЕНИЕ РЕЗУЛЬТАТОВ...")
+
+    print(f"Столбцы в results_df: {list(results_df.columns)}")
+    
+    results_columns = ['time_utc', 'station_id', 'theoretical_doppler_hz', 'light_time_s', 'range_km', 'range_rate_kms', 'doppler_residual_hz', 'measured_doppler_hz']
+    
+    available_columns = [col for col in results_columns if col in results_df.columns]
+    print(f"Доступные столбцы для объединения: {available_columns}")
+
+    final_df = pd.merge(
+        doppler_df,
+        results_df[available_columns],
+        on=['time_utc', 'station_id'],
+        how='inner'
+    )
+
+    print("9. ВИЗУАЛИЗАЦИЯ РЕЗУЛЬТАТОВ")
+    
+    plot_doppler_comparison(final_df, DSN_STATIONS)
+    
+    print("СВОДНАЯ СТАТИСТИКА:")
+    print(f"Всего измерений: {len(final_df)}")
+    
+    if 'light_time_s' in final_df.columns:
+        print(f"Средний light-time: {final_df['light_time_s'].mean():.1f} ± {final_df['light_time_s'].std():.1f} s")
+    
+    if 'range_km' in final_df.columns:
+        print(f"Средняя дальность: {final_df['range_km'].mean()/1e6:.3f} ± {final_df['range_km'].std()/1e6:.3f} млн км")
+    
+    if 'doppler_residual_hz' in final_df.columns:
+        print(f"Средний residual Doppler: {final_df['doppler_residual_hz'].mean():.1f} ± {final_df['doppler_residual_hz'].std():.1f} Hz")
+    
+    return final_df
 
     if 'doppler_residual_hz' in results_df.columns:
         initial_rms_full = np.sqrt(np.mean(results_df['doppler_residual_hz']**2))

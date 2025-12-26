@@ -1,0 +1,819 @@
+2025-12-26 04:00:00,537 - lt_tw_doppler - INFO - Processing 10 Doppler measurements
+2025-12-26 04:00:00,538 - lt_tw_doppler - DEBUG - GM parameters: {'sun': 132712440041.93938, 'earth': 398600.435436, 'venus': 324858.592, 'mercury': 22031.86855, 'jupiter': 126686531.9, 'mars': 42828.375662}
+2025-12-26 04:00:00,539 - lt_tw_doppler - INFO - Processing row 10001/10 at 2014-01-04 23:48:28.500000+00:00
+2025-12-26 04:00:00,539 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:48:28.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6674.978555679, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,539 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:48:28.500000+00:00
+2025-12-26 04:00:00,539 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,539 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,539 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,539 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,539 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,539 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,539 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:48:28.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,540 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151375.684054 seconds
+2025-12-26 04:00:00,540 - lt_tw_doppler - DEBUG - T3 interval: [442151373.184054, 442151378.184054] seconds
+2025-12-26 04:00:00,540 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63305292e+07  1.42172415e+08 -1.50453561e+04] km
+2025-12-26 04:00:00,540 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30317485.69322395 -58340875.59515646  -7530504.52846055] km
+2025-12-26 04:00:00,540 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.265411 s
+2025-12-26 04:00:00,540 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,540 - lt_tw_doppler - DEBUG - Iter 0: t2=442150670.388654, tau_D=705.295400570, geometric=705.295341806, correction=0.000058764
+2025-12-26 04:00:00,540 - lt_tw_doppler - DEBUG - Iter 1: t2=442150670.388652, tau_D=705.295401848, geometric=705.295343084, correction=0.000058764
+2025-12-26 04:00:00,541 - lt_tw_doppler - DEBUG - Iter 2: t2=442150670.388652, tau_D=705.295401848, geometric=705.295343084, correction=0.000058764
+2025-12-26 04:00:00,541 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,541 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30293421.84168476 -58358339.85277427  -7530351.91183338], vel=[34.33285948 24.7812278  -0.2634573 ] km/s
+2025-12-26 04:00:00,541 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,541 - lt_tw_doppler - DEBUG - Iter 0: t1=442149965.094883, tau_U=705.293769083, geometric=705.285331837, correction=0.008437245
+2025-12-26 04:00:00,541 - lt_tw_doppler - DEBUG - Iter 1: t1=442149965.094883, tau_U=705.293769094, geometric=705.285331849, correction=0.008437245
+2025-12-26 04:00:00,541 - lt_tw_doppler - DEBUG - Iter 2: t1=442149965.094883, tau_U=705.293769094, geometric=705.285331849, correction=0.008437245
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Final light times: up=705.293769s, down=705.295402s, total=1410.589171s
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG -   T1 interval: [442149962.594883, 442149967.594883]
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG -   T3 interval: [442151373.184054, 442151378.184054]
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG -   Total light time: 1410.589171 s
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG -   Distance: 211442224.519 km
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG -   Range rate: -13.001255 km/s
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442149962.594883 to 442149967.594883 seconds
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,542 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405264.482 Hz·s
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - T1 integral: 35885405264.482 Hz·s, avg freq: 7177.081053 MHz
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151373.184054 to 442151378.184054 seconds
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079445 MHz
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079445 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885397211.550 Hz·s
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885397211.550 Hz·s
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - T3 integral: 35885397211.550 Hz·s, avg freq: 7177.079442 MHz
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.277832, velocity_part=731380.350851, F_theory=733272.628683 Hz
+2025-12-26 04:00:00,542 - lt_tw_doppler - INFO - Successfully computed Doppler: 733272.628683 Hz
+2025-12-26 04:00:00,542 - lt_tw_doppler - INFO - Measurement: 6674.978556 Hz, Theoretical: 733272.628683 Hz, Residual: 726597.650127 Hz
+2025-12-26 04:00:00,542 - lt_tw_doppler - INFO - Processing row 10002/10 at 2014-01-04 23:48:33.500000+00:00
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:48:33.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6671.546191216, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,542 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:48:33.500000+00:00
+2025-12-26 04:00:00,542 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:48:33.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151380.684027 seconds
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - T3 interval: [442151378.184027, 442151383.184027] seconds
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63306759e+07  1.42172377e+08 -1.50453534e+04] km
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30317657.17795281 -58340751.54861503  -7530505.12589157] km
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.265235 s
+2025-12-26 04:00:00,543 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,544 - lt_tw_doppler - DEBUG - Iter 0: t2=442150675.388804, tau_D=705.295223008, geometric=705.295164244, correction=0.000058764
+2025-12-26 04:00:00,544 - lt_tw_doppler - DEBUG - Iter 1: t2=442150675.388803, tau_D=705.295224286, geometric=705.295165522, correction=0.000058764
+2025-12-26 04:00:00,544 - lt_tw_doppler - DEBUG - Iter 2: t2=442150675.388803, tau_D=705.295224286, geometric=705.295165522, correction=0.000058764
+2025-12-26 04:00:00,544 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,544 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30293590.26905293 -58358216.49189676  -7530353.61517037], vel=[34.33263664 24.78141316 -0.26248404] km/s
+2025-12-26 04:00:00,544 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,544 - lt_tw_doppler - DEBUG - Iter 0: t1=442149970.095211, tau_U=705.293591433, geometric=705.285154187, correction=0.008437247
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Iter 1: t1=442149970.095211, tau_U=705.293591445, geometric=705.285154198, correction=0.008437247
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Iter 2: t1=442149970.095211, tau_U=705.293591445, geometric=705.285154198, correction=0.008437247
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Final light times: up=705.293591s, down=705.295224s, total=1410.588816s
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG -   T1 interval: [442149967.595211, 442149972.595211]
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG -   T3 interval: [442151378.184027, 442151383.184027]
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG -   Total light time: 1410.588816 s
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG -   Distance: 211442171.287 km
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG -   Range rate: -13.001469 km/s
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442149967.595211 to 442149972.595211 seconds
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,545 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405235.885 Hz·s
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - T1 integral: 35885405235.885 Hz·s, avg freq: 7177.081047 MHz
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151378.184027 to 442151383.184027 seconds
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079439 MHz
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079439 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885397182.955 Hz·s
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885397182.955 Hz·s
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - T3 integral: 35885397182.955 Hz·s, avg freq: 7177.079437 MHz
+2025-12-26 04:00:00,545 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.277355, velocity_part=731392.368087, F_theory=733284.645442 Hz
+2025-12-26 04:00:00,546 - lt_tw_doppler - INFO - Successfully computed Doppler: 733284.645442 Hz
+2025-12-26 04:00:00,546 - lt_tw_doppler - INFO - Measurement: 6671.546191 Hz, Theoretical: 733284.645442 Hz, Residual: 726613.099251 Hz
+2025-12-26 04:00:00,546 - lt_tw_doppler - INFO - Processing row 10003/10 at 2014-01-04 23:48:38.500000+00:00
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:48:38.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6668.221611977, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,546 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:48:38.500000+00:00
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:48:38.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151385.684040 seconds
+2025-12-26 04:00:00,546 - lt_tw_doppler - DEBUG - T3 interval: [442151383.184040, 442151388.184040] seconds
+2025-12-26 04:00:00,547 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63308226e+07  1.42172340e+08 -1.50453508e+04] km
+2025-12-26 04:00:00,547 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30317828.66260335 -58340627.50002244  -7530505.71802107] km
+2025-12-26 04:00:00,547 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.265058 s
+2025-12-26 04:00:00,547 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,547 - lt_tw_doppler - DEBUG - Iter 0: t2=442150680.388995, tau_D=705.295045466, geometric=705.294986703, correction=0.000058764
+2025-12-26 04:00:00,547 - lt_tw_doppler - DEBUG - Iter 1: t2=442150680.388993, tau_D=705.295046744, geometric=705.294987980, correction=0.000058764
+2025-12-26 04:00:00,547 - lt_tw_doppler - DEBUG - Iter 2: t2=442150680.388993, tau_D=705.295046744, geometric=705.294987980, correction=0.000058764
+2025-12-26 04:00:00,547 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30293758.74748129 -58358093.12047344  -7530355.30756643], vel=[34.33241351 24.78159875 -0.26151016] km/s
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG - Iter 0: t1=442149975.095580, tau_U=705.293413804, geometric=705.284976557, correction=0.008437248
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG - Iter 1: t1=442149975.095580, tau_U=705.293413816, geometric=705.284976568, correction=0.008437248
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG - Iter 2: t1=442149975.095580, tau_U=705.293413816, geometric=705.284976568, correction=0.008437248
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG - Final light times: up=705.293414s, down=705.295047s, total=1410.588461s
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG -   T1 interval: [442149972.595580, 442149977.595580]
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG -   T3 interval: [442151383.184040, 442151388.184040]
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG -   Total light time: 1410.588461 s
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG -   Distance: 211442118.062 km
+2025-12-26 04:00:00,548 - lt_tw_doppler - DEBUG -   Range rate: -13.001683 km/s
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442149972.595580 to 442149977.595580 seconds
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,549 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405207.288 Hz·s
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - T1 integral: 35885405207.288 Hz·s, avg freq: 7177.081041 MHz
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151383.184040 to 442151388.184040 seconds
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079434 MHz
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079434 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885397154.360 Hz·s
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885397154.360 Hz·s
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - T3 integral: 35885397154.360 Hz·s, avg freq: 7177.079431 MHz
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.276876, velocity_part=731404.404115, F_theory=733296.680991 Hz
+2025-12-26 04:00:00,549 - lt_tw_doppler - INFO - Successfully computed Doppler: 733296.680991 Hz
+2025-12-26 04:00:00,549 - lt_tw_doppler - INFO - Measurement: 6668.221612 Hz, Theoretical: 733296.680991 Hz, Residual: 726628.459379 Hz
+2025-12-26 04:00:00,549 - lt_tw_doppler - INFO - Processing row 10004/10 at 2014-01-04 23:48:43.500000+00:00
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:48:43.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6665.019835472, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,549 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:48:43.500000+00:00
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,549 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:48:43.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,550 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151390.684053 seconds
+2025-12-26 04:00:00,550 - lt_tw_doppler - DEBUG - T3 interval: [442151388.184053, 442151393.184053] seconds
+2025-12-26 04:00:00,550 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63309693e+07  1.42172302e+08 -1.50453482e+04] km
+2025-12-26 04:00:00,550 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30318000.14579237 -58340503.45037618  -7530506.30484108] km
+2025-12-26 04:00:00,550 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.264882 s
+2025-12-26 04:00:00,550 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,550 - lt_tw_doppler - DEBUG - Iter 0: t2=442150685.389185, tau_D=705.294867947, geometric=705.294809183, correction=0.000058764
+2025-12-26 04:00:00,550 - lt_tw_doppler - DEBUG - Iter 1: t2=442150685.389184, tau_D=705.294869224, geometric=705.294810460, correction=0.000058764
+2025-12-26 04:00:00,551 - lt_tw_doppler - DEBUG - Iter 2: t2=442150685.389184, tau_D=705.294869224, geometric=705.294810460, correction=0.000058764
+2025-12-26 04:00:00,551 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,551 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30293927.2752092  -58357969.73956554  -7530356.98905275], vel=[34.33219008 24.78178459 -0.26053564] km/s
+2025-12-26 04:00:00,551 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,551 - lt_tw_doppler - DEBUG - Iter 0: t1=442149980.095948, tau_U=705.293236198, geometric=705.284798949, correction=0.008437249
+2025-12-26 04:00:00,551 - lt_tw_doppler - DEBUG - Iter 1: t1=442149980.095948, tau_U=705.293236209, geometric=705.284798960, correction=0.008437249
+2025-12-26 04:00:00,551 - lt_tw_doppler - DEBUG - Iter 2: t1=442149980.095948, tau_U=705.293236209, geometric=705.284798960, correction=0.008437249
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Final light times: up=705.293236s, down=705.294869s, total=1410.588105s
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG -   T1 interval: [442149977.595948, 442149982.595948]
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG -   T3 interval: [442151388.184053, 442151393.184053]
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG -   Total light time: 1410.588105 s
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG -   Distance: 211442064.843 km
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG -   Range rate: -13.001897 km/s
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442149977.595948 to 442149982.595948 seconds
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,552 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405178.691 Hz·s
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - T1 integral: 35885405178.691 Hz·s, avg freq: 7177.081036 MHz
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151388.184053 to 442151393.184053 seconds
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079428 MHz
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079428 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885397125.764 Hz·s
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885397125.764 Hz·s
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - T3 integral: 35885397125.764 Hz·s, avg freq: 7177.079425 MHz
+2025-12-26 04:00:00,552 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.276401, velocity_part=731416.458845, F_theory=733308.735245 Hz
+2025-12-26 04:00:00,552 - lt_tw_doppler - INFO - Successfully computed Doppler: 733308.735245 Hz
+2025-12-26 04:00:00,552 - lt_tw_doppler - INFO - Measurement: 6665.019835 Hz, Theoretical: 733308.735245 Hz, Residual: 726643.715410 Hz
+2025-12-26 04:00:00,552 - lt_tw_doppler - INFO - Processing row 10005/10 at 2014-01-04 23:48:48.500000+00:00
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:48:48.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6661.799408913, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,553 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:48:48.500000+00:00
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:48:48.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151395.684066 seconds
+2025-12-26 04:00:00,553 - lt_tw_doppler - DEBUG - T3 interval: [442151393.184066, 442151398.184066] seconds
+2025-12-26 04:00:00,554 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63311160e+07  1.42172265e+08 -1.50453456e+04] km
+2025-12-26 04:00:00,554 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30318171.62751651 -58340379.3996756   -7530506.88634846] km
+2025-12-26 04:00:00,554 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.264705 s
+2025-12-26 04:00:00,554 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,554 - lt_tw_doppler - DEBUG - Iter 0: t2=442150690.389376, tau_D=705.294690449, geometric=705.294631685, correction=0.000058763
+2025-12-26 04:00:00,554 - lt_tw_doppler - DEBUG - Iter 1: t2=442150690.389375, tau_D=705.294691726, geometric=705.294632962, correction=0.000058763
+2025-12-26 04:00:00,554 - lt_tw_doppler - DEBUG - Iter 2: t2=442150690.389375, tau_D=705.294691726, geometric=705.294632962, correction=0.000058763
+2025-12-26 04:00:00,554 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,555 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30294095.85183512 -58357846.34923887  -7530358.65967428], vel=[34.33196636 24.78197066 -0.2595605 ] km/s
+2025-12-26 04:00:00,555 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,555 - lt_tw_doppler - DEBUG - Iter 0: t1=442149985.096316, tau_U=705.293058613, geometric=705.284621362, correction=0.008437250
+2025-12-26 04:00:00,555 - lt_tw_doppler - DEBUG - Iter 1: t1=442149985.096316, tau_U=705.293058624, geometric=705.284621374, correction=0.008437250
+2025-12-26 04:00:00,555 - lt_tw_doppler - DEBUG - Iter 2: t1=442149985.096316, tau_U=705.293058624, geometric=705.284621374, correction=0.008437250
+2025-12-26 04:00:00,555 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,555 - lt_tw_doppler - DEBUG - Final light times: up=705.293059s, down=705.294692s, total=1410.587750s
+2025-12-26 04:00:00,555 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG -   T1 interval: [442149982.596316, 442149987.596316]
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG -   T3 interval: [442151393.184066, 442151398.184066]
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG -   Total light time: 1410.587750 s
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG -   Distance: 211442011.630 km
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG -   Range rate: -13.002112 km/s
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442149982.596316 to 442149987.596316 seconds
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,556 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405150.093 Hz·s
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - T1 integral: 35885405150.093 Hz·s, avg freq: 7177.081030 MHz
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151393.184066 to 442151398.184066 seconds
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079422 MHz
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079422 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885397097.169 Hz·s
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885397097.169 Hz·s
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - T3 integral: 35885397097.169 Hz·s, avg freq: 7177.079419 MHz
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.275923, velocity_part=731428.532283, F_theory=733320.808206 Hz
+2025-12-26 04:00:00,556 - lt_tw_doppler - INFO - Successfully computed Doppler: 733320.808206 Hz
+2025-12-26 04:00:00,556 - lt_tw_doppler - INFO - Measurement: 6661.799409 Hz, Theoretical: 733320.808206 Hz, Residual: 726659.008797 Hz
+2025-12-26 04:00:00,556 - lt_tw_doppler - INFO - Processing row 10006/10 at 2014-01-04 23:48:53.500000+00:00
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:48:53.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6657.944419861, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,556 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:48:53.500000+00:00
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,556 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:48:53.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,557 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151400.684039 seconds
+2025-12-26 04:00:00,557 - lt_tw_doppler - DEBUG - T3 interval: [442151398.184039, 442151403.184039] seconds
+2025-12-26 04:00:00,557 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63312627e+07  1.42172227e+08 -1.50453430e+04] km
+2025-12-26 04:00:00,557 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30318343.10639264 -58340255.34891825  -7530507.46253543] km
+2025-12-26 04:00:00,557 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.264529 s
+2025-12-26 04:00:00,557 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,557 - lt_tw_doppler - DEBUG - Iter 0: t2=442150695.389526, tau_D=705.294512974, geometric=705.294454210, correction=0.000058763
+2025-12-26 04:00:00,558 - lt_tw_doppler - DEBUG - Iter 1: t2=442150695.389525, tau_D=705.294514251, geometric=705.294455487, correction=0.000058763
+2025-12-26 04:00:00,558 - lt_tw_doppler - DEBUG - Iter 2: t2=442150695.389525, tau_D=705.294514251, geometric=705.294455487, correction=0.000058763
+2025-12-26 04:00:00,558 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,558 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30294264.47559848 -58357722.95055357  -7530360.31946266], vel=[34.33174234 24.78215697 -0.25858474] km/s
+2025-12-26 04:00:00,558 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,558 - lt_tw_doppler - DEBUG - Iter 0: t1=442149990.096644, tau_U=705.292881050, geometric=705.284443799, correction=0.008437251
+2025-12-26 04:00:00,558 - lt_tw_doppler - DEBUG - Iter 1: t1=442149990.096644, tau_U=705.292881062, geometric=705.284443811, correction=0.008437251
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Iter 2: t1=442149990.096644, tau_U=705.292881062, geometric=705.284443811, correction=0.008437251
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Final light times: up=705.292881s, down=705.294514s, total=1410.587395s
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG -   T1 interval: [442149987.596644, 442149992.596644]
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG -   T3 interval: [442151398.184039, 442151403.184039]
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG -   Total light time: 1410.587395 s
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG -   Distance: 211441958.424 km
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG -   Range rate: -13.002327 km/s
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442149987.596644 to 442149992.596644 seconds
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,559 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405121.496 Hz·s
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - T1 integral: 35885405121.496 Hz·s, avg freq: 7177.081024 MHz
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151398.184039 to 442151403.184039 seconds
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079417 MHz
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079417 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885397068.574 Hz·s
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885397068.574 Hz·s
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - T3 integral: 35885397068.574 Hz·s, avg freq: 7177.079414 MHz
+2025-12-26 04:00:00,559 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.275447, velocity_part=731440.624338, F_theory=733332.899785 Hz
+2025-12-26 04:00:00,559 - lt_tw_doppler - INFO - Successfully computed Doppler: 733332.899785 Hz
+2025-12-26 04:00:00,559 - lt_tw_doppler - INFO - Measurement: 6657.944420 Hz, Theoretical: 733332.899785 Hz, Residual: 726674.955365 Hz
+2025-12-26 04:00:00,560 - lt_tw_doppler - INFO - Processing row 10007/10 at 2014-01-04 23:48:58.500000+00:00
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:48:58.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6654.807470322, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,560 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:48:58.500000+00:00
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:48:58.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151405.684052 seconds
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - T3 interval: [442151403.184052, 442151408.184052] seconds
+2025-12-26 04:00:00,560 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63314094e+07  1.42172190e+08 -1.50453404e+04] km
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30318514.58517706 -58340131.29610706  -7530508.03340811] km
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.264352 s
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Iter 0: t2=442150700.389717, tau_D=705.294335519, geometric=705.294276755, correction=0.000058763
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Iter 1: t2=442150700.389716, tau_D=705.294336795, geometric=705.294278032, correction=0.000058763
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Iter 2: t2=442150700.389716, tau_D=705.294336795, geometric=705.294278032, correction=0.000058763
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30294433.14880732 -58357599.54159255  -7530361.96848952], vel=[34.33151802 24.78234352 -0.25760834] km/s
+2025-12-26 04:00:00,561 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Iter 0: t1=442149995.097012, tau_U=705.292703508, geometric=705.284266256, correction=0.008437252
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Iter 1: t1=442149995.097012, tau_U=705.292703520, geometric=705.284266267, correction=0.008437252
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Iter 2: t1=442149995.097012, tau_U=705.292703520, geometric=705.284266267, correction=0.008437252
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Final light times: up=705.292704s, down=705.294337s, total=1410.587040s
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG -   T1 interval: [442149992.597012, 442149997.597012]
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG -   T3 interval: [442151403.184052, 442151408.184052]
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG -   Total light time: 1410.587040 s
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG -   Distance: 211441905.225 km
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG -   Range rate: -13.002542 km/s
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442149992.597012 to 442149997.597012 seconds
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,562 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405092.899 Hz·s
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - T1 integral: 35885405092.899 Hz·s, avg freq: 7177.081019 MHz
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151403.184052 to 442151408.184052 seconds
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,562 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079411 MHz
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079411 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885397039.979 Hz·s
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885397039.979 Hz·s
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - T3 integral: 35885397039.979 Hz·s, avg freq: 7177.079408 MHz
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.274968, velocity_part=731452.735212, F_theory=733345.010180 Hz
+2025-12-26 04:00:00,563 - lt_tw_doppler - INFO - Successfully computed Doppler: 733345.010180 Hz
+2025-12-26 04:00:00,563 - lt_tw_doppler - INFO - Measurement: 6654.807470 Hz, Theoretical: 733345.010180 Hz, Residual: 726690.202710 Hz
+2025-12-26 04:00:00,563 - lt_tw_doppler - INFO - Processing row 10008/10 at 2014-01-04 23:49:03.500000+00:00
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:49:03.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6650.97097683, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,563 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:49:03.500000+00:00
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:49:03.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151410.684066 seconds
+2025-12-26 04:00:00,563 - lt_tw_doppler - DEBUG - T3 interval: [442151408.184066, 442151413.184066] seconds
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63315561e+07  1.42172152e+08 -1.50453377e+04] km
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30318686.0624866  -58340007.24223957  -7530508.59895866] km
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.264176 s
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Iter 0: t2=442150705.389907, tau_D=705.294158084, geometric=705.294099322, correction=0.000058763
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Iter 1: t2=442150705.389906, tau_D=705.294159361, geometric=705.294100598, correction=0.000058763
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Iter 2: t2=442150705.389906, tau_D=705.294159361, geometric=705.294100598, correction=0.000058763
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,564 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30294601.86970345 -58357476.12341442  -7530363.60678644], vel=[34.3312934  24.7825303  -0.25663131] km/s
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Iter 0: t1=442150000.097380, tau_U=705.292525987, geometric=705.284088733, correction=0.008437254
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Iter 1: t1=442150000.097380, tau_U=705.292525998, geometric=705.284088745, correction=0.008437254
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Iter 2: t1=442150000.097380, tau_U=705.292525998, geometric=705.284088745, correction=0.008437254
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Final light times: up=705.292526s, down=705.294159s, total=1410.586685s
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG -   T1 interval: [442149997.597380, 442150002.597380]
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG -   T3 interval: [442151408.184066, 442151413.184066]
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG -   Total light time: 1410.586685 s
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG -   Distance: 211441852.031 km
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG -   Range rate: -13.002758 km/s
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442149997.597380 to 442150002.597380 seconds
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,565 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,566 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405064.301 Hz·s
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - T1 integral: 35885405064.301 Hz·s, avg freq: 7177.081013 MHz
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151408.184066 to 442151413.184066 seconds
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079405 MHz
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079405 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885397011.383 Hz·s
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885397011.383 Hz·s
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - T3 integral: 35885397011.383 Hz·s, avg freq: 7177.079402 MHz
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.274491, velocity_part=731464.864814, F_theory=733357.139305 Hz
+2025-12-26 04:00:00,566 - lt_tw_doppler - INFO - Successfully computed Doppler: 733357.139305 Hz
+2025-12-26 04:00:00,566 - lt_tw_doppler - INFO - Measurement: 6650.970977 Hz, Theoretical: 733357.139305 Hz, Residual: 726706.168328 Hz
+2025-12-26 04:00:00,566 - lt_tw_doppler - INFO - Processing row 10009/10 at 2014-01-04 23:49:08.500000+00:00
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-04 23:49:08.500000+00:00', 'station_id': 26, 'station_name': 'Goldstone DSS-26', 'transmitting_station_id': 26, 'observable_hz': 6647.192358971, 'transmit_frequency_hz': 7177079497.784789, 'ramp_active': True, 'ramp_rate_hz_s': -1.143809999, 'ramp_start_time': '2014-01-04 23:47:40+00:00', 'reference_frequency_hz': 7177578618.0, 'downlink_delay_ns': 77000, 'uplink_delay_s': 7.7e-05, 'compression_time_s': 5.0, 'receiver_channel': 9, 'ramp_key': '26_2014-01-04 23:47:40+00:00'}
+2025-12-26 04:00:00,566 - lt_tw_doppler - INFO - Computing two-way Doppler for station 26 at 2014-01-04 23:49:08.500000+00:00
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 26
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 26
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Ramp: start=442151327.18, end=442154927.18, freq=7177.079 MHz, rate=-1.144 Hz/s
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,566 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-04 23:49:08.500000+00:00, station 26, Tc=5.0
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Receive time (TDB): 442151415.684038 seconds
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - T3 interval: [442151413.184038, 442151418.184038] seconds
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Station 26 position at T3: [-3.63317028e+07  1.42172115e+08 -1.50453351e+04] km
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30318857.5369381  -58339883.18831336  -7530509.15917944] km
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 705.263999 s
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Iter 0: t2=442150710.390058, tau_D=705.293980673, geometric=705.293921910, correction=0.000058763
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Iter 1: t2=442150710.390056, tau_D=705.293981949, geometric=705.293923186, correction=0.000058763
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Iter 2: t2=442150710.390056, tau_D=705.293981949, geometric=705.293923186, correction=0.000058763
+2025-12-26 04:00:00,567 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30294770.63652315 -58357352.69708107  -7530365.23438527], vel=[34.33106847 24.78271732 -0.25565367] km/s
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG - Iter 0: t1=442150005.097708, tau_U=705.292348488, geometric=705.283911233, correction=0.008437255
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG - Iter 1: t1=442150005.097708, tau_U=705.292348499, geometric=705.283911245, correction=0.008437255
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG - Iter 2: t1=442150005.097708, tau_U=705.292348499, geometric=705.283911245, correction=0.008437255
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG - Final light times: up=705.292348s, down=705.293982s, total=1410.586330s
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG -   T1 interval: [442150002.597708, 442150007.597708]
+2025-12-26 04:00:00,568 - lt_tw_doppler - DEBUG -   T3 interval: [442151413.184038, 442151418.184038]
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG -   Total light time: 1410.586330 s
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG -   Distance: 211441798.845 km
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG -   Range rate: -13.002974 km/s
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442150002.597708 to 442150007.597708 seconds
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,569 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885405035.704 Hz·s
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - T1 integral: 35885405035.704 Hz·s, avg freq: 7177.081007 MHz
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Integrating frequency for station 26 from 442151413.184038 to 442151418.184038 seconds
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Found 1 ramps for station 26
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.079399 MHz
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.079399 MHz, ramp_rate=-1.144 Hz/s, width=5.000000s, integral=35885396982.788 Hz·s
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885396982.788 Hz·s
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - T3 integral: 35885396982.788 Hz·s, avg freq: 7177.079397 MHz
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=1892.274016, velocity_part=731477.013052, F_theory=733369.287068 Hz
+2025-12-26 04:00:00,569 - lt_tw_doppler - INFO - Successfully computed Doppler: 733369.287068 Hz
+2025-12-26 04:00:00,569 - lt_tw_doppler - INFO - Measurement: 6647.192359 Hz, Theoretical: 733369.287068 Hz, Residual: 726722.094709 Hz
+2025-12-26 04:00:00,569 - lt_tw_doppler - INFO - Processing row 10010/10 at 2014-01-05 04:24:06.500000+00:00
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Row data: {'time_utc': '2014-01-05 04:24:06.500000+00:00', 'station_id': 43, 'station_name': 'Canberra DSS-43', 'transmitting_station_id': 43, 'observable_hz': -306.567400931, 'transmit_frequency_hz': 7177071436.111924, 'ramp_active': True, 'ramp_rate_hz_s': 0.92548, 'ramp_start_time': '2014-01-05 04:23:41+00:00', 'reference_frequency_hz': 7177583112.0, 'downlink_delay_ns': 0, 'uplink_delay_s': 0.0, 'compression_time_s': 5.0, 'receiver_channel': 1, 'ramp_key': '43_2014-01-05 04:23:41+00:00'}
+2025-12-26 04:00:00,569 - lt_tw_doppler - INFO - Computing two-way Doppler for station 43 at 2014-01-05 04:24:06.500000+00:00
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Parameters: Tc=5.0, uplink_band=2, downlink_band=2
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Transponder ratios: M2=1.174900, M2R=1.174900
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Ramp table contains 2 entries for station 43
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Found 1 relevant ramps for station 43
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Ramp: start=442167888.18, end=442171488.18, freq=7177.071 MHz, rate=0.925 Hz/s
+2025-12-26 04:00:00,569 - lt_tw_doppler - DEBUG - Solving two-way light time problem...
+2025-12-26 04:00:00,570 - lt_tw_doppler - DEBUG - Solving light time for 2014-01-05 04:24:06.500000+00:00, station 43, Tc=5.0
+2025-12-26 04:00:00,570 - lt_tw_doppler - DEBUG - Receive time (TDB): 442167913.684072 seconds
+2025-12-26 04:00:00,570 - lt_tw_doppler - DEBUG - T3 interval: [442167911.184072, 442167916.184072] seconds
+2025-12-26 04:00:00,570 - lt_tw_doppler - DEBUG - Station 43 position at T3: [-3.68089766e+07  1.42051369e+08 -2.23799094e+04] km
+2025-12-26 04:00:00,570 - lt_tw_doppler - DEBUG - Approx spacecraft position: [ 30860179.89151295 -57923798.46011416  -7546483.96924629] km
+2025-12-26 04:00:00,570 - lt_tw_doppler - DEBUG - Initial down-leg light time estimate: 704.648087 s
+2025-12-26 04:00:00,570 - lt_tw_doppler - DEBUG - Starting down-leg light time iteration...
+2025-12-26 04:00:00,570 - lt_tw_doppler - DEBUG - Iter 0: t2=442167209.005218, tau_D=704.678853246, geometric=704.678794967, correction=0.000058279
+2025-12-26 04:00:00,571 - lt_tw_doppler - DEBUG - Iter 1: t2=442167209.005217, tau_D=704.678854588, geometric=704.678796309, correction=0.000058279
+2025-12-26 04:00:00,571 - lt_tw_doppler - DEBUG - Iter 2: t2=442167209.005217, tau_D=704.678854588, geometric=704.678796309, correction=0.000058279
+2025-12-26 04:00:00,571 - lt_tw_doppler - DEBUG - Down-leg converged in 2 iterations
+2025-12-26 04:00:00,571 - lt_tw_doppler - DEBUG - Spacecraft state at T2: pos=[ 30836486.57407075 -57941589.8886093   -7545138.4826255 ], vel=[33.59004296 25.24216418 -1.95639518] km/s
+2025-12-26 04:00:00,571 - lt_tw_doppler - DEBUG - Starting up-leg light time iteration...
+2025-12-26 04:00:00,571 - lt_tw_doppler - DEBUG - Iter 0: t1=442166504.328277, tau_U=704.676939935, geometric=704.668498488, correction=0.008441447
+2025-12-26 04:00:00,571 - lt_tw_doppler - DEBUG - Iter 1: t1=442166504.328277, tau_U=704.676939949, geometric=704.668498502, correction=0.008441447
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Iter 2: t1=442166504.328277, tau_U=704.676939949, geometric=704.668498502, correction=0.008441447
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Up-leg converged in 2 iterations
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Final light times: up=704.676940s, down=704.678855s, total=1409.355795s
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Light time solution computed:
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG -   T1 interval: [442166501.828277, 442166506.828277]
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG -   T3 interval: [442167911.184072, 442167916.184072]
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG -   Total light time: 1409.355795 s
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG -   Distance: 211257388.446 km
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG -   Range rate: -12.853221 km/s
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T1 interval...
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Integrating frequency for station 43 from 442166501.828277 to 442166506.828277 seconds
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Found 1 ramps for station 43
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Using 0 ramp segments for integration
+2025-12-26 04:00:00,572 - lt_tw_doppler - WARNING - No ramps fully within window - using closest ramp
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Closest ramp integration: 35885350788.474 Hz·s
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - T1 integral: 35885350788.474 Hz·s, avg freq: 7177.070158 MHz
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Calculating frequency integrals for T3 interval...
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Integrating frequency for station 43 from 442167911.184072 to 442167916.184072 seconds
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Integration window width: 5.000000 seconds
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Found 1 ramps for station 43
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Sorted station ramps by start time
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Adjusted start frequency for partial ramp: 7177.071457 MHz
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Using 1 ramp segments for integration
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Single segment width: 5.000000 s
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Segment 0: start_freq=7177.071457 MHz, ramp_rate=0.925 Hz/s, width=5.000000s, integral=35885357298.558 Hz·s
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Total integrated frequency: 35885357298.558 Hz·s
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - T3 integral: 35885357298.558 Hz·s, avg freq: 7177.071460 MHz
+2025-12-26 04:00:00,572 - lt_tw_doppler - DEBUG - Doppler terms: ramp_part=-1529.739484, velocity_part=723051.659669, F_theory=721521.920185 Hz
+2025-12-26 04:00:00,572 - lt_tw_doppler - INFO - Successfully computed Doppler: 721521.920185 Hz
+2025-12-26 04:00:00,572 - lt_tw_doppler - INFO - Measurement: -306.567401 Hz, Theoretical: 721521.920185 Hz, Residual: 721828.487586 Hz
+2025-12-26 04:00:00,572 - lt_tw_doppler - INFO - Successfully processed 10/10 measurements
+2025-12-26 04:00:00,589 - matplotlib.pyplot - DEBUG - Loaded backend tkagg version 8.6.
+2025-12-26 04:00:00,625 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,625 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,625 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,625 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,625 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 1189
+2025-12-26 04:00:00,627 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,627 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,627 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,627 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,627 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 2994
+2025-12-26 04:00:00,662 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,662 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,662 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,662 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,662 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 374
+2025-12-26 04:00:00,663 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,663 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,663 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,663 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,663 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 286
+2025-12-26 04:00:00,664 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,664 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,664 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,664 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,664 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 263
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 387
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,665 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,666 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 436
+2025-12-26 04:00:00,666 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,666 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,666 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,666 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,666 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 351
+2025-12-26 04:00:00,667 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-12-26 04:00:00,667 - PIL.PngImagePlugin - DEBUG - STREAM b'sBIT' 41 4
+2025-12-26 04:00:00,667 - PIL.PngImagePlugin - DEBUG - b'sBIT' 41 4 (unknown)
+2025-12-26 04:00:00,667 - PIL.PngImagePlugin - DEBUG - STREAM b'pHYs' 57 9
+2025-12-26 04:00:00,667 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 78 364
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0.
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,673 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-B.ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSansMono[wght].ttf', name='Ubuntu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-Italic[wdth,wght].ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-Italic[wght].ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-C.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu[wdth,wght].ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono[wght].ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-Th.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-B.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-BI.ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-MI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-R.ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-LI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-BI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,674 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSans[wdth,wght].ttf', name='Ubuntu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSansMono-Italic[wght].ttf', name='Ubuntu Sans Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-RI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSans-Italic[wdth,wght].ttf', name='Ubuntu Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-L.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-RI.ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,675 - matplotlib.font_manager - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0 to DejaVu Sans ('/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=8.0.
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,690 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,691 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-B.ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSansMono[wght].ttf', name='Ubuntu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-Italic[wdth,wght].ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-Italic[wght].ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-C.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu[wdth,wght].ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono[wght].ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-Th.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-B.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-BI.ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-MI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-R.ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-LI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-BI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,692 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSans[wdth,wght].ttf', name='Ubuntu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,693 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSansMono-Italic[wght].ttf', name='Ubuntu Sans Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,693 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-RI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,693 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSans-Italic[wdth,wght].ttf', name='Ubuntu Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,693 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,693 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,693 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-L.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,693 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-RI.ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,693 - matplotlib.font_manager - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=8.0 to DejaVu Sans ('/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
+2025-12-26 04:00:00,709 - matplotlib.font_manager - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0.
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Oblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 1.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-BoldItalic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmex10.ttf', name='cmex10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmr10.ttf', name='cmr10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymReg.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmss10.ttf', name='cmss10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymBol.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansDisplay.ttf', name='DejaVu Sans Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneral.ttf', name='STIXGeneral', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmtt10.ttf', name='cmtt10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUni.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymBol.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymBol.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizThreeSymReg.ttf', name='STIXSizeThreeSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizOneSymBol.ttf', name='STIXSizeOneSym', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmmi10.ttf', name='cmmi10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFiveSymReg.ttf', name='STIXSizeFiveSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizFourSymReg.ttf', name='STIXSizeFourSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBol.ttf', name='STIXNonUnicode', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2025-12-26 04:00:00,710 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmsy10.ttf', name='cmsy10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralItalic.ttf', name='STIXGeneral', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBolIta.ttf', name='STIXGeneral', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXSizTwoSymReg.ttf', name='STIXSizeTwoSym', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerif-Italic.ttf', name='DejaVu Serif', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSerifDisplay.ttf', name='DejaVu Serif Display', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXGeneralBol.ttf', name='STIXGeneral', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/STIXNonUniBolIta.ttf', name='STIXNonUnicode', style='italic', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/cmb10.ttf', name='cmb10', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans-BoldOblique.ttf', name='DejaVu Sans', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 1.335
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=700, stretch='normal', size='scalable')) = 11.335
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 0.33499999999999996
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-B.ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSansMono[wght].ttf', name='Ubuntu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-Italic[wdth,wght].ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-Italic[wght].ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', name='DejaVu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 0.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-C.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu[wdth,wght].ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono[wght].ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-Th.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-B.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-BI.ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-MI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,711 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf', name='DejaVu Sans Mono', style='oblique', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-R.ttf', name='Ubuntu Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-LI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-BI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf', name='DejaVu Serif', style='normal', variant='normal', weight=700, stretch='normal', size='scalable')) = 10.335
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSans[wdth,wght].ttf', name='Ubuntu Sans', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSansMono-Italic[wght].ttf', name='Ubuntu Sans Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-RI.ttf', name='Ubuntu', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuSans-Italic[wdth,wght].ttf', name='Ubuntu Sans', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf', name='DejaVu Sans Mono', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-M.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/Ubuntu-L.ttf', name='Ubuntu', style='normal', variant='normal', weight=400, stretch='normal', size='scalable')) = 10.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: score(FontEntry(fname='/usr/share/fonts/truetype/ubuntu/UbuntuMono-RI.ttf', name='Ubuntu Mono', style='italic', variant='normal', weight=400, stretch='normal', size='scalable')) = 11.05
+2025-12-26 04:00:00,712 - matplotlib.font_manager - DEBUG - findfont: Matching sans\-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=12.0 to DejaVu Sans ('/home/michael/Computer_Mathematics/env/lib/python3.12/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
