@@ -34,7 +34,7 @@ def main():
     exit(0)'''
     raw_output_file = 'raw_messenger_doppler_data.csv'
     doppler_df = pd.read_csv(raw_output_file)
-    doppler_df = doppler_df[:100000]
+    doppler_df = doppler_df[:10000]
     #doppler_df = doppler_df.sample(1000)
 
     #print("3. АНАЛИЗ И ВИЗУАЛИЗАЦИЯ ДАННЫХ...")

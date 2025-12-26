@@ -184,22 +184,26 @@ def compute_two_way_doppler_ramped(t_receive_utc, Tc, station_id, uplink_band, d
     
     M2, M2R = get_transponder_ratios(uplink_band, downlink_band)
     
-    light_time_solution = solve_two_way_light_time_with_intervals(
-        t_receive_utc, Tc, station_id,
+    light_time_solution_1 = solve_two_way_light_time_with_intervals(
+        utc_to_tdb_seconds(t_receive_utc)-Tc/2, Tc, station_id,
         body_interpolators, body_vel_interpolators,
         sc_pos_interp, sc_vel_interp, GM_params
     )
 
-    t1_start = light_time_solution['t1_start_tdb']
-    t1_end = light_time_solution['t1_end_tdb']
-    t3_start = light_time_solution['t3_start_tdb']
-    t3_end = light_time_solution['t3_end_tdb']
+    t1_start = light_time_solution_1['t1_center_tdb']
+
+    light_time_solution_2 = solve_two_way_light_time_with_intervals(
+        utc_to_tdb_seconds(t_receive_utc)+Tc/2, Tc, station_id,
+        body_interpolators, body_vel_interpolators,
+        sc_pos_interp, sc_vel_interp, GM_params
+    )
+
+    t1_end = light_time_solution_2['t1_center_tdb']
+
+    #print(t_receive_utc, t1_start, t1_end, t1_end - t1_start)
 
     integral_fT_t1 = integrate_ramped_frequency(t1_start, t1_end, ramp_table, station_id, row_data)
     avg_fT_t1 = integral_fT_t1 / (t1_end - t1_start)
-
-    integral_fT_t3 = integrate_ramped_frequency(t3_start, t3_end, ramp_table, station_id, row_data)
-    avg_fT_t3 = integral_fT_t3 / (t3_end - t3_start)
 
     #term1 = (M2R / Tc) * integral_fT_t3
     term1 = M2R*row_data['reference_frequency_hz']
@@ -209,19 +213,19 @@ def compute_two_way_doppler_ramped(t_receive_utc, Tc, station_id, uplink_band, d
 
     return {
         'theoretical_doppler_hz': F_theory,
-        'light_time_s': light_time_solution['total_light_time'],
-        'distance_km': light_time_solution['distance_km'],
-        'range_rate_kms': light_time_solution['range_rate_kms'],
+        'light_time_s': light_time_solution_1['total_light_time'],
+        'distance_km': light_time_solution_1['distance_km'],
+        'range_rate_kms': light_time_solution_1['range_rate_kms'],
         'M2': M2,
         'M2R': M2R,
         'transmit_freq_hz': avg_fT_t1,
-        'receive_freq_hz': avg_fT_t3,
+        'receive_freq_hz': None,
         'integral_fT_t1': integral_fT_t1,
-        'integral_fT_t3': integral_fT_t3,
+        'integral_fT_t3': None,
         't1_start_tdb': t1_start,
         't1_end_tdb': t1_end,
-        't3_start_tdb': t3_start,
-        't3_end_tdb': t3_end
+        't3_start_tdb': None,
+        't3_end_tdb': None
     }
 
 def compute_one_way_doppler(t_receive_utc, Tc, station_id, downlink_band, \
@@ -292,6 +296,8 @@ def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_in
             }
             
             results.append(result)
+
+            #exit(0)
             
         except Exception as e:
             import traceback
@@ -379,7 +385,8 @@ def prepare_ramp_table_from_data(df):
 def solve_two_way_light_time_with_intervals(t_receive_utc, Tc, station_id, \
             body_interpolators, body_vel_interpolators,sc_pos_interp, sc_vel_interp, GM_params):
     
-    t3_tdb = utc_to_tdb_seconds(t_receive_utc)
+    #t3_tdb = utc_to_tdb_seconds(t_receive_utc)
+    t3_tdb = t_receive_utc
 
     t3_center = t3_tdb
     t3_start = t3_center - Tc/2
@@ -459,6 +466,10 @@ def solve_two_way_light_time_with_intervals(t_receive_utc, Tc, station_id, \
     
     t1_start = t1_center - Tc/2
     t1_end = t1_center + Tc/2
+
+    # Ошибка между t1, t1_start, t2, t2_start
+    # Light TIme (t3_utc) t3_utc (tdb) -> 2 loops, -> t1
+    # light Time (t3_start) , light Time (t3_end)
     
     r_vec = r_station_t3 - r_sc_t2
     distance = np.linalg.norm(r_vec)
