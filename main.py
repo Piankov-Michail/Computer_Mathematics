@@ -13,28 +13,34 @@ DSN_STATIONS = {
     63: {'name': 'Madrid DSS-63', 'x': 4849092.4565, 'y': -360180.3397, 'z': 4115109.2231},
     65: {'name': 'Madrid DSS-65', 'x': 4849339.6208, 'y': -360427.6502, 'z': 4114750.7302}
 }
+
 from horizons_parser import *
-from interpolators import *
 from messener_orbit import *
 from create_graphs import *
-from parse_csv import *
-from stations_positions import *
 from lt_tw_doppler import *
+
 def main():
-    '''
     print("1. ЗАГРУЗКА ДАННЫХ DOPPLER MESSENGER...")
-    doppler_df = load_messenger_doppler_data('./processed_data')
+    '''
+    doppler_df, ramp_df = load_messenger_doppler_data('./processed_data')
     
     if doppler_df.empty:
         print("Нет данных для обработки. Выход.")
         return
+    '''
 
     raw_output_file = 'raw_messenger_doppler_data.csv'
-    doppler_df.to_csv(raw_output_file, index=False)
-    exit(0)'''
-    raw_output_file = 'raw_messenger_doppler_data.csv'
+    raw_ramp_output_file = 'raw_messenger_ramp_data.csv'
+    #doppler_df.to_csv(raw_output_file, index=False)
+    #ramp_df.to_csv(raw_ramp_output_file, index=False)
+
+    #exit(0)
     doppler_df = pd.read_csv(raw_output_file)
-    doppler_df = doppler_df[:10000]
+    filtered_doppler_df = doppler_df[doppler_df['time_utc'] <= '2014-01-07']
+    doppler_df = filtered_doppler_df
+    ramp_df = pd.read_csv(raw_ramp_output_file)
+    filtered_ramp_df = ramp_df[ramp_df['station_id'] != 0]
+    ramp_df = filtered_ramp_df[filtered_ramp_df['ramp_start_time'] <= '2014-01-07']
     #doppler_df = doppler_df.sample(1000)
 
     #print("3. АНАЛИЗ И ВИЗУАЛИЗАЦИЯ ДАННЫХ...")
@@ -106,9 +112,10 @@ def main():
     #sc_vel_interp = body_vel_interpolators['messenger']
     
     print("7. ВЫЧИСЛЕНИЕ THEORETICAL DOPPLER С LIGHT-TIME КОРРЕКЦИЕЙ...")
-
-    ramp_table = prepare_ramp_table_from_data(doppler_df)
-
+    print("Подготовка Ramp")
+    print("Размер Ramp", len(ramp_df))
+    ramp_table = prepare_ramp_table_from_data(doppler_df, ramp_df)
+    print("Подготовка Ramp завершена")
     results_df = process_doppler_with_exact_model(
         doppler_df,
         body_interpolators,

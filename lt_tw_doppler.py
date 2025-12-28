@@ -5,10 +5,10 @@ from astropy.time import Time
 import astropy.units as u
 from typing import Dict, List, Tuple, Optional
 from tqdm import tqdm
+
 from horizons_parser import *
 from interpolators import *
 from messener_orbit import *
-from create_graphs import *
 from parse_csv import *
 from stations_positions import *
 
@@ -296,8 +296,6 @@ def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_in
             }
             
             results.append(result)
-
-            #exit(0)
             
         except Exception as e:
             import traceback
@@ -310,75 +308,49 @@ def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_in
     results_df = pd.DataFrame(results)
     return results_df
 
-def prepare_ramp_table_from_data(df):
+def prepare_ramp_table_from_data(df, ramp_df):
     ramp_table = []
-    
-    required_cols = ['ramp_active', 'ramp_rate_hz_s', 'ramp_start_time', 'station_id']
 
-    if 'ramp_start_time' in df.columns and df['ramp_start_time'].notna().any():
-        df['ramp_key'] = df['station_id'].astype(str) + '_' + df['ramp_start_time'].astype(str)
-        
-        unique_ramps = df[df['ramp_active'] == True].drop_duplicates('ramp_key')
-        
-        for idx, row in unique_ramps.iterrows():
-            try:
-                start_freq = None
-                if 'ramp_start_freq_hz' in row and pd.notna(row['ramp_start_freq_hz']):
-                    start_freq = float(row['ramp_start_freq_hz'])
-                elif 'transmit_frequency_hz' in row and pd.notna(row['transmit_frequency_hz']):
-                    start_freq = float(row['transmit_frequency_hz'])
-                elif 'reference_frequency_hz' in row and pd.notna(row['reference_frequency_hz']):
-                    start_freq = float(row['reference_frequency_hz'])
-                else:
-                    start_freq = 7165.0e6
-                
-                if start_freq < 1e7:
-                    start_freq *= 1e6
-                elif start_freq < 1e10:
-                    pass
-                else:
-                    start_freq = 7165.0e6
-                
-                ramp_rate = float(row['ramp_rate_hz_s']) if pd.notna(row['ramp_rate_hz_s']) else 0.0
-                ramp_start_time = row['ramp_start_time']
-                
-                ramp_start_tdb = utc_to_tdb_seconds(ramp_start_time)
-
-                ramp_end_tdb = ramp_start_tdb + 3600
-                
-                ramp_table.append({
-                    'station_id': int(row['station_id']),
-                    'start_time': ramp_start_tdb,
-                    'end_time': ramp_end_tdb,
-                    'start_freq': start_freq,
-                    'ramp_rate': ramp_rate
-                })
-            except Exception as e:
-                print(f"Ошибка обработки ramp для станции {row['station_id']}: {e}")
-                continue
-
-    ramp_table.sort(key=lambda x: (x['station_id'], x['start_time']))
-    
-    if ramp_table:
-        sample = ramp_table[0]
-
-    if not ramp_table and not df.empty:
-        for station_id in df['station_id'].unique():
-            if pd.isna(station_id) or station_id not in DSN_STATIONS:
-                continue
-                
-            mid_time = df['time_utc'].iloc[len(df)//2]
-            ramp_start_tdb = utc_to_tdb_seconds(mid_time)
+    for idx, row in tqdm(ramp_df.iterrows(), total=ramp_df.shape[0], desc="Processing Ramp Table"):
+        try:
+            ramp_start_time = safe_parse_time(row['ramp_start_time'])
             
-            start_freq = 7165.0e6
+            duration_seconds = float(row['duration_s'])
+
+            ramp_end_time = ramp_start_time + pd.Timedelta(seconds=duration_seconds)
+
+            ramp_start_time = ramp_start_time.strftime('%Y-%m-%d %H:%M:%S.%f')
+            ramp_end_time = ramp_end_time.strftime('%Y-%m-%d %H:%M:%S.%f')
+
+            ramp_start_tdb = utc_to_tdb_seconds(ramp_start_time)
+            ramp_end_tdb = utc_to_tdb_seconds(ramp_end_time)
+            
+            if 'ramp_start_freq_hz' in row and pd.notna(row['ramp_start_freq_hz']):
+                start_freq = float(row['ramp_start_freq_hz'])
+
+            if start_freq < 1e7:
+                    start_freq *= 1e6
+            elif start_freq < 1e10:
+                pass
+            else:
+                start_freq = 7165.0e6
+
+            ramp_rate = float(row['ramp_rate_hz_s']) if 'ramp_rate_hz_s' in row and pd.notna(row['ramp_rate_hz_s']) else 0.0
+
+            station_id = int(row['station_id'])
             
             ramp_table.append({
-                'station_id': int(station_id),
-                'start_time': ramp_start_tdb - 86400,
-                'end_time': ramp_start_tdb + 86400,
+                'station_id': station_id,
+                'start_time': ramp_start_tdb,
+                'end_time': ramp_end_tdb,
                 'start_freq': start_freq,
-                'ramp_rate': 0.0
+                'ramp_rate': ramp_rate
             })
+        except Exception as e:
+            print(f"Ошибка обработки ramp для строки {idx}: {e}")
+            continue
+    
+    ramp_table.sort(key=lambda x: (x['station_id'], x['start_time']))
     
     return ramp_table
 
@@ -466,10 +438,6 @@ def solve_two_way_light_time_with_intervals(t_receive_utc, Tc, station_id, \
     
     t1_start = t1_center - Tc/2
     t1_end = t1_center + Tc/2
-
-    # Ошибка между t1, t1_start, t2, t2_start
-    # Light TIme (t3_utc) t3_utc (tdb) -> 2 loops, -> t1
-    # light Time (t3_start) , light Time (t3_end)
     
     r_vec = r_station_t3 - r_sc_t2
     distance = np.linalg.norm(r_vec)

@@ -1,5 +1,3 @@
-# odf_parser.py
-
 import pandas as pd
 import numpy as np
 from datetime import datetime, timezone
@@ -8,11 +6,14 @@ import glob
 import struct
 from typing import List
 from pds4_tools import pds4_read
+from tqdm import tqdm
+
+from concurrent.futures import ProcessPoolExecutor
+import multiprocessing
 
 REF_EPOCH = datetime(1950, 1, 1, tzinfo=timezone.utc)
 
 def get_dat_path_from_structure(xml_path: str) -> str:
-    """Находит .dat файл рядом с .xml."""
     dir_name = os.path.dirname(xml_path)
     base_name = os.path.basename(xml_path).rsplit('.', 1)[0]
     for ext in ['.dat', '.DAT']:
@@ -37,14 +38,21 @@ def parse_ramp_group(structure, xml_path: str) -> pd.DataFrame:
 
     ramp_records = []
     with open(dat_path, 'rb') as f:
+        header_offset = offset - 36
+        f.seek(header_offset)
+        header_raw = f.read(36)
+        
+        station_id = struct.unpack('>I', header_raw[4:8])[0] if len(header_raw) >= 36 else None
+
         f.seek(offset)
+        
         for _ in range(records):
             raw = f.read(36)
             if len(raw) < 36:
                 break
 
             start_int   = struct.unpack('>I', raw[0:4])[0]
-            start_frac  = struct.unpack('>I', raw[4:8])[0]   # наносекунды
+            start_frac  = struct.unpack('>I', raw[4:8])[0]
             rate_int    = struct.unpack('>i', raw[8:12])[0]
             rate_frac   = struct.unpack('>i', raw[12:16])[0]
             items56     = struct.unpack('>I', raw[16:20])[0]
@@ -66,7 +74,8 @@ def parse_ramp_group(structure, xml_path: str) -> pd.DataFrame:
                 "ramp_end_time": pd.to_datetime(end_time),
                 "ramp_start_freq_hz": f0,
                 "ramp_rate_hz_s": ramp_rate,
-                "duration_s": (end_time - start_time).total_seconds()
+                "duration_s": (end_time - start_time).total_seconds(),
+                "station_id": station_id
             })
 
     return pd.DataFrame(ramp_records)
@@ -188,23 +197,47 @@ def parse_messenger_odf_pds4(xml_path: str) -> pd.DataFrame:
         final_df = attach_ramps_to_data(data_df, ramp_dfs)
 
         print(f"  Готово: {len(final_df)} записей, {final_df['ramp_active'].sum()} с ramp")
-        return final_df
+        return final_df, pd.concat(ramp_dfs, ignore_index=True)
     except Exception as e:
         print(f"Ошибка: {e}")
         return pd.DataFrame()
 
-def process_all_odf_files(input_dir: str, output_dir: str):
+def process_all_odf_files(input_dir: str, output_dir: str, max_workers=None):
     os.makedirs(output_dir, exist_ok=True)
     xml_files = glob.glob(os.path.join(input_dir, "*.xml"))
+    
+    if max_workers is None:
+        max_workers = min(32, multiprocessing.cpu_count() + 4)
+    
     successful = 0
-    for xml_file in xml_files:
-        df = parse_messenger_odf_pds4(xml_file)
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        futures = []
+        for xml_file in xml_files:
+            futures.append(executor.submit(process_single_file, xml_file, output_dir))
+        
+        for future in tqdm(futures, desc="Обработка ODF файлов", unit="file"):
+            try:
+                result = future.result()
+                if result:
+                    successful += 1
+            except Exception as e:
+                print(f"Ошибка при обработке файла: {e}")
+    
+    print(f"Успешно обработано файлов: {successful}/{len(xml_files)}")
+
+def process_single_file(xml_file, output_dir):
+    try:
+        df, ramp_df = parse_messenger_odf_pds4(xml_file)
         if not df.empty:
             base = os.path.basename(xml_file).rsplit('.', 1)[0]
             csv_path = os.path.join(output_dir, f"{base}_doppler.csv")
+            ramp_csv_path = os.path.join(output_dir, f"ramp_for_{base}_doppler.csv")
             df.to_csv(csv_path, index=False)
-            successful += 1
-    print(f"\nУспешно: {successful}/{len(xml_files)}")
+            ramp_df.to_csv(ramp_csv_path, index=False)
+            return True
+    except Exception as e:
+        print(f"Ошибка в файле {xml_file}: {e}")
+    return False
 
 if __name__ == "__main__":
     process_all_odf_files("downloaded_files", "processed_data")
