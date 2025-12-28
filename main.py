@@ -8,7 +8,7 @@ from lt_tw_doppler import *
 from orbit_refinement import OrbitRefinementLSQ  
 
 def refine_orbit_with_lsq(doppler_df, body_interpolators, body_vel_interpolators, 
-                         gms_data, ramp_table, initial_state, sc_pos_interp, sc_vel_interp):
+                         gms_data, ramp_table, initial_state, sc_pos_interp, sc_vel_interp, radius_data):
     print("УТОЧНЕНИЕ ОРБИТЫ MESSENGER МЕТОДОМ НАИМЕНЬШИХ КВАДРАТОВ")
     
     refinement = OrbitRefinementLSQ(
@@ -17,7 +17,8 @@ def refine_orbit_with_lsq(doppler_df, body_interpolators, body_vel_interpolators
         body_vel_interpolators=body_vel_interpolators,
         gms_data=gms_data,
         ramp_table=ramp_table,
-        dsn_stations=DSN_STATIONS
+        dsn_stations=DSN_STATIONS,
+        radius_data=radius_data
     )
     
     print("\nВычисление невязок для начального состояния...")
@@ -196,7 +197,8 @@ def main():
         ramp_table=ramp_table,
         initial_state=initial_state,
         sc_pos_interp=sc_pos_interp,
-        sc_vel_interp=sc_vel_interp
+        sc_vel_interp=sc_vel_interp,
+        radius_data=radius_data
     )
     
     if refined_state is not None:
