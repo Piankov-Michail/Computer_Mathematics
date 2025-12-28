@@ -285,6 +285,9 @@ def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_in
             theoretical_doppler = theoretical_result['theoretical_doppler_hz']
             measured_doppler = row['observable_hz']
             residual = abs(measured_doppler - theoretical_doppler)
+
+            if(residual > 1e9):
+                continue
             
             result = {
                 'time_utc': row['time_utc'],
