@@ -100,11 +100,11 @@ def main():
     raw_ramp_output_file = 'raw_messenger_ramp_data.csv'
     doppler_df = pd.read_csv(raw_output_file)
 
-    filtered_doppler_df = doppler_df[doppler_df['time_utc'] <= '2014-01-03']
+    filtered_doppler_df = doppler_df[doppler_df['time_utc'] <= '2014-01-06']
     doppler_df = filtered_doppler_df
     ramp_df = pd.read_csv(raw_ramp_output_file)
     filtered_ramp_df = ramp_df[ramp_df['station_id'] != 0]
-    ramp_df = filtered_ramp_df[filtered_ramp_df['ramp_start_time'] <= '2014-01-03']
+    ramp_df = filtered_ramp_df[filtered_ramp_df['ramp_start_time'] <= '2014-01-06']
 
     print("3. АНАЛИЗ И ВИЗУАЛИЗАЦИЯ ДАННЫХ...")
     

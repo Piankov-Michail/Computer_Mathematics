@@ -142,17 +142,15 @@ def plot_mercury_orbit_detailed_corrected(integration_times, spacecraft_position
 def plot_solar_system_full_data(body_interpolators, body_times):
     fig = go.Figure()
 
-    # Обновленная палитра цветов с добавлением Марса и Юпитера
     colors = {
         'sun': 'gold', 
         'mercury': 'gray', 
         'venus': 'orange', 
         'earth': 'blue',
         'mars': 'red',
-        'jupiter': '#D4AF37'  # Золотисто-коричневый для Юпитера
+        'jupiter': '#D4AF37'
     }
-    
-    # Обновленные метки для всех тел
+
     labels = {
         'sun': 'Sun', 
         'mercury': 'Mercury', 
@@ -162,17 +160,15 @@ def plot_solar_system_full_data(body_interpolators, body_times):
         'jupiter': 'Jupiter'
     }
 
-    # Обновленный список тел для отображения
     bodies_to_plot = ['sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter']
-    
-    # Собираем все позиции для определения общего диапазона
+
     all_positions = []
     
     for body_name in bodies_to_plot:
         if body_name in body_interpolators and body_name in body_times:
             times = body_times[body_name]
             positions = np.array([body_interpolators[body_name](t) for t in times])
-            positions_scaled = positions / 1e6  # Масштабируем в миллионы км
+            positions_scaled = positions / 1e6
             all_positions.append(positions_scaled)
             
             # Линия орбиты
@@ -185,7 +181,6 @@ def plot_solar_system_full_data(body_interpolators, body_times):
                 name=labels[body_name]
             ))
 
-            # Начальная точка
             fig.add_trace(go.Scatter3d(
                 x=[positions_scaled[0, 0]],
                 y=[positions_scaled[0, 1]],
@@ -196,7 +191,6 @@ def plot_solar_system_full_data(body_interpolators, body_times):
                 showlegend=False
             ))
 
-            # Конечная точка
             fig.add_trace(go.Scatter3d(
                 x=[positions_scaled[-1, 0]],
                 y=[positions_scaled[-1, 1]],
@@ -207,21 +201,18 @@ def plot_solar_system_full_data(body_interpolators, body_times):
                 showlegend=False
             ))
 
-    # Если есть данные, вычисляем общий диапазон для одинакового масштаба осей
     if all_positions:
         all_positions_flat = np.vstack(all_positions)
         x_min, y_min, z_min = all_positions_flat.min(axis=0)
         x_max, y_max, z_max = all_positions_flat.max(axis=0)
         
-        # Находим центр и максимальный диапазон
         center_x = (x_min + x_max) / 2
         center_y = (y_min + y_max) / 2
         center_z = (z_min + z_max) / 2
         
         max_range = max(x_max - x_min, y_max - y_min, z_max - z_min)
-        padding = max_range * 0.1  # 10% отступа
-        
-        # Устанавливаем одинаковые пределы для всех осей
+        padding = max_range * 0.1
+
         axis_range = max_range + padding
         axis_min = center_x - axis_range/2
         axis_max = center_x + axis_range/2
@@ -232,12 +223,12 @@ def plot_solar_system_full_data(body_interpolators, body_times):
             xaxis_title='X (million km)',
             yaxis_title='Y (million km)',
             zaxis_title='Z (million km)',
-            aspectmode='cube',  # Одинаковый масштаб по всем осям
+            aspectmode='cube',
             xaxis=dict(range=[axis_min, axis_max]),
             yaxis=dict(range=[axis_min, axis_max]),
             zaxis=dict(range=[axis_min, axis_max]),
             camera=dict(
-                eye=dict(x=1.5, y=1.5, z=0.8)  # Начальный угол обзора
+                eye=dict(x=1.5, y=1.5, z=0.8)
             )
         ),
         width=1000,
@@ -327,13 +318,11 @@ def plot_messenger_doppler_data(doppler_df: pd.DataFrame, DSN_STATIONS):
 
 def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
     fig = go.Figure()
-    
-    # Определяем тела для отображения
+
     bodies_to_plot = ['mercury', 'messenger']
-    colors = {'mercury': '#8A8A8A', 'messenger': '#00FFFF'}  # Серый и бирюзовый
+    colors = {'mercury': '#8A8A8A', 'messenger': '#00FFFF'}
     names = {'mercury': 'Mercury', 'messenger': 'MESSENGER'}
-    
-    # Находим максимальное время для фильтрации последних 24 часов
+
     all_times = []
     for body_name in bodies_to_plot:
         if body_name in body_times:
@@ -344,13 +333,12 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
         return fig
     
     max_time = max(all_times)
-    min_time = max_time - 40000  # 24 часа в секундах
+    min_time = max_time - 40000
     #print(f"Time window for 24-hour view (TDB seconds since J2000):")
     #print(f"  Start: {min_time:.3f}")
     #print(f"  End:   {max_time:.3f}")
     #print(f"  Duration: 24.0 hours")
-    
-    # Собираем данные только за последние 24 часа
+
     all_positions_24h = []
     body_data_24h = {}
     
@@ -358,18 +346,15 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
         if body_name not in body_interpolators or body_name not in body_times:
             print(f"Warning: Data for {body_name} not available. Skipping.")
             continue
-        
-        # Фильтруем данные за последние 24 часа
+
         times = np.array(body_times[body_name])
         mask = (times >= min_time) & (times <= max_time)
         filtered_times = times[mask]
         
         if len(filtered_times) < 2:
             #print(f"Warning: Insufficient data for {body_name} in 24h window. Using last 50 points instead.")
-            # Берем последние 50 точек как fallback
             filtered_times = times[-50:] if len(times) >= 50 else times
-        
-        # Получаем позиции
+
         positions = np.array([body_interpolators[body_name](float(t)) for t in filtered_times])
         positions_scaled = positions / 1e6  # млн км
         
@@ -390,25 +375,20 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
     if not body_data_24h:
         #print("ERROR: No valid data for 24-hour window")
         return fig
-    
-    # === ЦЕНТРИРОВАНИЕ НА СЕРЕДИНЕ ТРАЕКТОРИИ МЕРКУРИЯ ===
+
     if 'mercury' in body_data_24h:
         mercury_positions = body_data_24h['mercury']['positions']
-        # Центр = середина траектории Меркурия (среднее между мин и макс)
         center_x = (mercury_positions[:, 0].min() + mercury_positions[:, 0].max()) / 2
         center_y = (mercury_positions[:, 1].min() + mercury_positions[:, 1].max()) / 2
         center_z = (mercury_positions[:, 2].min() + mercury_positions[:, 2].max()) / 2
         #print(f"\nCenter based on Mercury trajectory midpoint: ({center_x:.6f}, {center_y:.6f}, {center_z:.6f}) million km")
     else:
-        # Fallback: центр всех позиций за 24 часа
         all_positions_combined = np.vstack([data['positions'] for data in body_data_24h.values()])
         center_x = all_positions_combined[:, 0].mean()
         center_y = all_positions_combined[:, 1].mean()
         center_z = all_positions_combined[:, 2].mean()
         #print(f"\nCenter based on all positions: ({center_x:.6f}, {center_y:.6f}, {center_z:.6f}) million km")
-    
-    # === АВТОМАТИЧЕСКИЙ МАСШТАБ ДЛЯ 24 ЧАСОВ ===
-    # Вычисляем расстояния от центра для всех точек за 24 часа
+
     all_positions_combined = np.vstack([data['positions'] for data in body_data_24h.values()])
     distances = np.sqrt(
         (all_positions_combined[:, 0] - center_x) ** 2 +
@@ -418,22 +398,18 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
     
     max_distance = distances.max()
     #print(f"Maximum distance from center in 24h window: {max_distance:.6f} million km")
-    
-    # Устанавливаем диапазон отображения с отступом 40% (больше для движения за 24ч)
+
     padding = 0.4
     plot_range = max_distance * (1 + padding)
-    
-    # Минимальный диапазон для деталей (0.1 млн км = 100,000 км)
+
     plot_range = max(plot_range, 0.1)
     
     #print(f"Plot range (radius): {plot_range:.6f} million km")
-    
-    # === ДОБАВЛЕНИЕ ТРАЕКТОРИЙ ЗА 24 ЧАСА ===
+
     for body_name, data in body_data_24h.items():
         positions = data['positions']
         times = data['times']
-        
-        # Основная траектория
+
         fig.add_trace(go.Scatter3d(
             x=positions[:, 0],
             y=positions[:, 1],
@@ -454,8 +430,7 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
             ),
             text=[f"{t:.3f}" for t in times]
         ))
-        
-        # Начальная точка
+
         fig.add_trace(go.Scatter3d(
             x=[positions[0, 0]],
             y=[positions[0, 1]],
@@ -464,7 +439,7 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
             marker=dict(
                 size=10,
                 color=colors[body_name],
-                symbol='circle',  # Исправлено: 'star' не поддерживается в 3D
+                symbol='circle',
                 line=dict(width=2, color='white' if body_name == 'mercury' else 'black')
             ),
             name=f"{names[body_name]} start",
@@ -477,8 +452,7 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
                 "Z: %{z:.6f}M km<extra></extra>"
             )
         ))
-        
-        # Конечная точка
+
         fig.add_trace(go.Scatter3d(
             x=[positions[-1, 0]],
             y=[positions[-1, 1]],
@@ -500,8 +474,7 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
                 "Z: %{z:.6f}M km<extra></extra>"
             )
         ))
-    
-    # === НАСТРОЙКИ ОТОБРАЖЕНИЯ ===
+
     fig.update_layout(
         title=(
             f"MESSENGER & Mercury - 24 Hour Close-up View<br>"
@@ -516,7 +489,7 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
             yaxis=dict(range=[center_y - plot_range, center_y + plot_range]),
             zaxis=dict(range=[center_z - plot_range, center_z + plot_range]),
             camera=dict(
-                eye=dict(x=1.5, y=1.5, z=1.0),  # Хороший ракурс для деталей
+                eye=dict(x=1.5, y=1.5, z=1.0),
                 up=dict(x=0, y=0, z=1),
                 center=dict(x=0, y=0, z=0)
             )
@@ -533,8 +506,7 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
             font=dict(size=14)
         )
     )
-    
-    # === СПРАВОЧНАЯ ИНФОРМАЦИЯ ===
+
     scale_note = (
         f"24-HOUR VIEW<br>"
         f"Center: Mercury trajectory midpoint<br>"
@@ -554,8 +526,7 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
         bordercolor="gray",
         borderwidth=1
     )
-    
-    # === МАРКЕР ЦЕНТРА (исправлена ошибка с символом) ===
+
     fig.add_trace(go.Scatter3d(
         x=[center_x],
         y=[center_y],
@@ -564,7 +535,7 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
         marker=dict(
             size=15,
             color='yellow',
-            symbol='circle',  # Исправлено: 'star' не поддерживается в 3D
+            symbol='circle',
             line=dict(width=2, color='orange')
         ),
         name='Trajectory center',
@@ -583,26 +554,20 @@ def plot_mercury_messenger_24h_closeup(body_interpolators, body_times):
 
 def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: str = 'plots'):
     os.makedirs(output_dir, exist_ok=True)
-    
-    # Создаем копию DataFrame и преобразуем time_utc в datetime
+
     df = final_df.copy()
     if df['time_utc'].dtype == 'object' or df['time_utc'].dtype == 'string':
-        # Пробуем разные форматы преобразования
         try:
-            # Сначала пробуем стандартный ISO формат
             df['time_utc'] = pd.to_datetime(df['time_utc'], utc=True)
         except:
             try:
-                # Если есть '+00:00' в конце
                 df['time_utc'] = df['time_utc'].str.replace('+00:00', 'Z', regex=False)
                 df['time_utc'] = pd.to_datetime(df['time_utc'], utc=True)
             except:
                 try:
-                    # Более гибкое преобразование
                     df['time_utc'] = pd.to_datetime(df['time_utc'], errors='coerce', utc=True)
                 except Exception as e:
                     print(f"Ошибка при преобразовании времени: {e}")
-                    # Если не удалось преобразовать, пропускаем визуализацию
                     return
     
     for station_id in df['station_id'].unique():
@@ -627,7 +592,6 @@ def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: st
         else:
             plot_data = station_data
         
-        # 1. Doppler Shift
         if 'measured_doppler_hz' in station_data.columns and 'theoretical_doppler_hz' in station_data.columns:
             axes[0].plot(plot_data['time_utc'], plot_data['measured_doppler_hz'], 
                          'b-', linewidth=0.5, alpha=0.7, label='Измеренный')
@@ -642,7 +606,6 @@ def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: st
                          ha='center', va='center', fontsize=10)
             axes[0].set_title(f'Doppler Shift - {station_name}', fontsize=12)
 
-        # 2. Residuals
         if 'doppler_residual_hz' in station_data.columns:
             axes[1].plot(plot_data['time_utc'], plot_data['doppler_residual_hz'],
                          'g-', linewidth=0.5, alpha=0.7)
@@ -661,7 +624,6 @@ def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: st
                          ha='center', va='center', fontsize=10)
             axes[1].set_title('Doppler Residuals', fontsize=12)
 
-        # 3. Light-time
         if 'light_time_s' in station_data.columns:
             axes[2].plot(plot_data['time_utc'], plot_data['light_time_s'],
                          'm-', linewidth=1, alpha=0.7)
@@ -674,34 +636,31 @@ def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: st
             axes[2].text(0.5, 0.5, 'Нет данных о light-time',
                          ha='center', va='center', fontsize=10)
             axes[2].set_title('Light-time', fontsize=12)
-        
-        # УЛУЧШЕННОЕ ФОРМАТИРОВАНИЕ ВРЕМЕНИ ДЛЯ ВСЕХ ОСЕЙ
+
         if len(plot_data) > 0 and not plot_data['time_utc'].isna().all():
-            # Проверяем, что у нас есть валидные datetime значения
             valid_times = plot_data['time_utc'].dropna()
             if len(valid_times) > 1:
                 time_range = valid_times.max() - valid_times.min()
                 
-                if time_range.total_seconds() < 3600:  # меньше 1 часа
+                if time_range.total_seconds() < 3600:
                     num_ticks = 5
                     time_format = '%H:%M:%S'
-                elif time_range.total_seconds() < 86400:  # меньше 1 дня
+                elif time_range.total_seconds() < 86400:
                     num_ticks = 6
                     time_format = '%H:%M\n%d/%m'
-                elif time_range.total_seconds() < 604800:  # меньше 1 недели
+                elif time_range.total_seconds() < 604800:
                     num_ticks = 7
                     time_format = '%d/%m\n%H:%M'
-                else:  # больше недели
+                else:
                     num_ticks = 8
                     time_format = '%Y-%m-%d'
-                
-                # Применяем форматирование ко всем осям
+
                 for ax in axes:
                     ax.xaxis.set_major_locator(MaxNLocator(num_ticks))
                     ax.xaxis.set_major_formatter(mdates.DateFormatter(time_format))
                     plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right', fontsize=8)
         
-        plt.tight_layout(rect=[0, 0.05, 1, 0.96])  # Добавляем место снизу для подписей
+        plt.tight_layout(rect=[0, 0.05, 1, 0.96])
         
         filename = f'{output_dir}/doppler_comparison_station_{station_id}.png'
         try:
@@ -713,8 +672,7 @@ def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: st
             print(f"Сохранен с DPI=72")
         
         plt.close()
-    
-    # Сводный график для всех станций
+
     if 'doppler_residual_hz' in df.columns and not df['time_utc'].isna().all():
         plt.figure(figsize=(14, 7))
         
@@ -724,8 +682,7 @@ def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: st
             station_data = df[df['station_id'] == station_id].copy()
             if len(station_data) > plot_every:
                 station_data = station_data.iloc[::plot_every]
-            
-            # Фильтруем NaN значения для времени
+
             station_data = station_data.dropna(subset=['time_utc', 'doppler_residual_hz'])
             
             if len(station_data) < 2:
@@ -743,8 +700,7 @@ def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: st
         plt.xlabel('Time (UTC)', fontsize=10)
         plt.ylabel('Doppler Residual (Hz)', fontsize=10)
         plt.title('Doppler Residuals for All Stations', fontsize=12)
-        
-        # УЛУЧШЕННОЕ ФОРМАТИРОВАНИЕ ВРЕМЕНИ ДЛЯ СВОДНОГО ГРАФИКА
+
         valid_times = df['time_utc'].dropna()
         if len(valid_times) > 1:
             time_range = valid_times.max() - valid_times.min()
@@ -768,7 +724,7 @@ def plot_doppler_comparison(final_df: pd.DataFrame, DSN_STATIONS, output_dir: st
         plt.legend(title='Station', fontsize=8, ncol=3, loc='upper right')
         plt.grid(True, alpha=0.3)
         
-        plt.tight_layout(pad=2.0)  # Увеличиваем отступы
+        plt.tight_layout(pad=2.0)
         
         filename = f'{output_dir}/all_stations_doppler_residuals.png'
         try:

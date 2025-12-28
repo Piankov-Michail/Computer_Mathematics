@@ -77,7 +77,6 @@ def load_messenger_doppler_data(data_dir: str = './processed_data') -> pd.DataFr
 
             df = filtered_df.copy()
 
-            # Частота передачи: ramp если активен, иначе reference
             df['transmit_frequency_hz'] = df['reference_frequency_hz']
             mask = df['ramp_active']
             df.loc[mask, 'transmit_frequency_hz'] = df.loc[mask, 'ramp_start_freq_hz']

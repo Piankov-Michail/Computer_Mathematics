@@ -12,7 +12,6 @@ from pds4_tools import pds4_read
 REF_EPOCH = datetime(1950, 1, 1, tzinfo=timezone.utc)
 
 def get_dat_path_from_structure(xml_path: str) -> str:
-    """Находит .dat файл рядом с .xml."""
     dir_name = os.path.dirname(xml_path)
     base_name = os.path.basename(xml_path).rsplit('.', 1)[0]
     for ext in ['.dat', '.DAT']:
@@ -44,7 +43,7 @@ def parse_ramp_group(structure, xml_path: str) -> pd.DataFrame:
                 break
 
             start_int   = struct.unpack('>I', raw[0:4])[0]
-            start_frac  = struct.unpack('>I', raw[4:8])[0]   # наносекунды
+            start_frac  = struct.unpack('>I', raw[4:8])[0]
             rate_int    = struct.unpack('>i', raw[8:12])[0]
             rate_frac   = struct.unpack('>i', raw[12:16])[0]
             items56     = struct.unpack('>I', raw[16:20])[0]
