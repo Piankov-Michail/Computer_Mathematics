@@ -5,3 +5,8 @@ __pycache__
 raw_messenger_doppler_data.csv
 
 horizons_data/*.txt
+
+processed_data/*.csv
+
+downloaded_files/*.xml
+downloaded_files/*.dat

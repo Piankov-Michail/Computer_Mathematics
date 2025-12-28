@@ -226,60 +226,50 @@ def compute_two_way_doppler_ramped(t_receive_utc, Tc, station_id, uplink_band, d
         
         # Solve light time problem
         logger.debug("Solving two-way light time problem...")
-        light_time_solution = solve_two_way_light_time_with_intervals(
-            t_receive_utc, Tc, station_id,
+        
+        light_time_solution_1 = solve_two_way_light_time_with_intervals(
+        utc_to_tdb_seconds(t_receive_utc)-Tc/2, Tc, station_id,
+        body_interpolators, body_vel_interpolators,
+        sc_pos_interp, sc_vel_interp, GM_params)
+
+        t1_start = light_time_solution_1['t1_center_tdb']
+
+        light_time_solution_2 = solve_two_way_light_time_with_intervals(
+            utc_to_tdb_seconds(t_receive_utc)+Tc/2, Tc, station_id,
             body_interpolators, body_vel_interpolators,
-            sc_pos_interp, sc_vel_interp, GM_params
-        )
-        
-        # Log light time solution details
-        logger.debug(f"Light time solution computed:")
-        logger.debug(f"  T1 interval: [{light_time_solution['t1_start_tdb']:.6f}, {light_time_solution['t1_end_tdb']:.6f}]")
-        logger.debug(f"  T3 interval: [{light_time_solution['t3_start_tdb']:.6f}, {light_time_solution['t3_end_tdb']:.6f}]")
-        logger.debug(f"  Total light time: {light_time_solution['total_light_time']:.6f} s")
-        logger.debug(f"  Distance: {light_time_solution['distance_km']:.3f} km")
-        logger.debug(f"  Range rate: {light_time_solution['range_rate_kms']:.6f} km/s")
-        
+            sc_pos_interp, sc_vel_interp, GM_params)
+
+        t1_end = light_time_solution_2['t1_center_tdb']
+
         # Compute frequency integrals
         logger.debug("Calculating frequency integrals for T1 interval...")
         integral_fT_t1 = integrate_ramped_frequency(
-            light_time_solution['t1_start_tdb'], 
-            light_time_solution['t1_end_tdb'], 
-            ramp_table, station_id, row_data
-        )
-        avg_fT_t1 = integral_fT_t1 / (light_time_solution['t1_end_tdb'] - light_time_solution['t1_start_tdb'])
+            t1_start, t1_end,
+            ramp_table, station_id, row_data)
+        avg_fT_t1 = integral_fT_t1 / (t1_end - t1_start)
         logger.debug(f"T1 integral: {integral_fT_t1:.3f} Hz·s, avg freq: {avg_fT_t1/1e6:.6f} MHz")
         
-        logger.debug("Calculating frequency integrals for T3 interval...")
-        integral_fT_t3 = integrate_ramped_frequency(
-            light_time_solution['t3_start_tdb'], 
-            light_time_solution['t3_end_tdb'], 
-            ramp_table, station_id, row_data
-        )
-        avg_fT_t3 = integral_fT_t3 / (light_time_solution['t3_end_tdb'] - light_time_solution['t3_start_tdb'])
-        logger.debug(f"T3 integral: {integral_fT_t3:.3f} Hz·s, avg freq: {avg_fT_t3/1e6:.6f} MHz")
-        
         # Calculate theoretical Doppler
-        term1 = (M2R / Tc) * integral_fT_t3
+        term1 = M2R*row_data['reference_frequency_hz']
         term2 = (M2 / Tc) * integral_fT_t1
         F_theory = term1 - term2
         logger.debug(f"Doppler terms: term1={term1:.6f}, term2={term2:.6f}, F_theory={F_theory:.6f} Hz")
         
         result = {
             'theoretical_doppler_hz': F_theory,
-            'light_time_s': light_time_solution['total_light_time'],
-            'distance_km': light_time_solution['distance_km'],
-            'range_rate_kms': light_time_solution['range_rate_kms'],
+            'light_time_s': light_time_solution_1['total_light_time'],
+            'distance_km': light_time_solution_1['distance_km'],
+            'range_rate_kms': light_time_solution_1['range_rate_kms'],
             'M2': M2,
             'M2R': M2R,
             'transmit_freq_hz': avg_fT_t1,
-            'receive_freq_hz': avg_fT_t3,
+            'receive_freq_hz': None,
             'integral_fT_t1': integral_fT_t1,
-            'integral_fT_t3': integral_fT_t3,
-            't1_start_tdb': light_time_solution['t1_start_tdb'],
-            't1_end_tdb': light_time_solution['t1_end_tdb'],
-            't3_start_tdb': light_time_solution['t3_start_tdb'],
-            't3_end_tdb': light_time_solution['t3_end_tdb']
+            'integral_fT_t3': None,
+            't1_start_tdb': light_time_solution_1['t1_start_tdb'],
+            't1_end_tdb': light_time_solution_1['t1_end_tdb'],
+            't3_start_tdb': light_time_solution_1['t3_start_tdb'],
+            't3_end_tdb': light_time_solution_1['t3_end_tdb']
         }
         
         logger.info(f"Successfully computed Doppler: {F_theory:.6f} Hz")
@@ -383,75 +373,49 @@ def process_doppler_with_exact_model(doppler_df, body_interpolators, body_vel_in
     results_df = pd.DataFrame(results)
     return results_df
 
-def prepare_ramp_table_from_data(df):
+def prepare_ramp_table_from_data(ramp_df):
     ramp_table = []
-    
-    required_cols = ['ramp_active', 'ramp_rate_hz_s', 'ramp_start_time', 'station_id']
 
-    if 'ramp_start_time' in df.columns and df['ramp_start_time'].notna().any():
-        df['ramp_key'] = df['station_id'].astype(str) + '_' + df['ramp_start_time'].astype(str)
-        
-        unique_ramps = df[df['ramp_active'] == True].drop_duplicates('ramp_key')
-        
-        for idx, row in unique_ramps.iterrows():
-            try:
-                start_freq = None
-                if 'ramp_start_freq_hz' in row and pd.notna(row['ramp_start_freq_hz']):
-                    start_freq = float(row['ramp_start_freq_hz'])
-                elif 'transmit_frequency_hz' in row and pd.notna(row['transmit_frequency_hz']):
-                    start_freq = float(row['transmit_frequency_hz'])
-                elif 'reference_frequency_hz' in row and pd.notna(row['reference_frequency_hz']):
-                    start_freq = float(row['reference_frequency_hz'])
-                else:
-                    start_freq = 7165.0e6
-                
-                if start_freq < 1e7:
-                    start_freq *= 1e6
-                elif start_freq < 1e10:
-                    pass
-                else:
-                    start_freq = 7165.0e6
-                
-                ramp_rate = float(row['ramp_rate_hz_s']) if pd.notna(row['ramp_rate_hz_s']) else 0.0
-                ramp_start_time = row['ramp_start_time']
-                
-                ramp_start_tdb = utc_to_tdb_seconds(ramp_start_time)
-
-                ramp_end_tdb = ramp_start_tdb + 3600
-                
-                ramp_table.append({
-                    'station_id': int(row['station_id']),
-                    'start_time': ramp_start_tdb,
-                    'end_time': ramp_end_tdb,
-                    'start_freq': start_freq,
-                    'ramp_rate': ramp_rate
-                })
-            except Exception as e:
-                print(f"Ошибка обработки ramp для станции {row['station_id']}: {e}")
-                continue
-
-    ramp_table.sort(key=lambda x: (x['station_id'], x['start_time']))
-    
-    if ramp_table:
-        sample = ramp_table[0]
-
-    if not ramp_table and not df.empty:
-        for station_id in df['station_id'].unique():
-            if pd.isna(station_id) or station_id not in DSN_STATIONS:
-                continue
-                
-            mid_time = df['time_utc'].iloc[len(df)//2]
-            ramp_start_tdb = utc_to_tdb_seconds(mid_time)
+    for idx, row in tqdm(ramp_df.iterrows(), total=ramp_df.shape[0], desc="Processing Ramp Table"):
+        try:
+            ramp_start_time = safe_parse_time(row['ramp_start_time'])
             
-            start_freq = 7165.0e6
+            duration_seconds = float(row['duration_s'])
+
+            ramp_end_time = ramp_start_time + pd.Timedelta(seconds=duration_seconds)
+
+            ramp_start_time = ramp_start_time.strftime('%Y-%m-%d %H:%M:%S.%f')
+            ramp_end_time = ramp_end_time.strftime('%Y-%m-%d %H:%M:%S.%f')
+
+            ramp_start_tdb = utc_to_tdb_seconds(ramp_start_time)
+            ramp_end_tdb = utc_to_tdb_seconds(ramp_end_time)
+            
+            if 'ramp_start_freq_hz' in row and pd.notna(row['ramp_start_freq_hz']):
+                start_freq = float(row['ramp_start_freq_hz'])
+
+            if start_freq < 1e7:
+                    start_freq *= 1e6
+            elif start_freq < 1e10:
+                pass
+            else:
+                start_freq = 7165.0e6
+
+            ramp_rate = float(row['ramp_rate_hz_s']) if 'ramp_rate_hz_s' in row and pd.notna(row['ramp_rate_hz_s']) else 0.0
+
+            station_id = int(row['station_id'])
             
             ramp_table.append({
-                'station_id': int(station_id),
-                'start_time': ramp_start_tdb - 86400,
-                'end_time': ramp_start_tdb + 86400,
+                'station_id': station_id,
+                'start_time': ramp_start_tdb,
+                'end_time': ramp_end_tdb,
                 'start_freq': start_freq,
-                'ramp_rate': 0.0
+                'ramp_rate': ramp_rate
             })
+        except Exception as e:
+            print(f"Ошибка обработки ramp для строки {idx}: {e}")
+            continue
+    
+    ramp_table.sort(key=lambda x: (x['station_id'], x['start_time']))
     
     return ramp_table
 
@@ -461,7 +425,8 @@ def solve_two_way_light_time_with_intervals(t_receive_utc, Tc, station_id,
     logger.debug(f"Solving light time for {t_receive_utc}, station {station_id}, Tc={Tc}")
     
     try:
-        t3_tdb = utc_to_tdb_seconds(t_receive_utc)
+        #t3_tdb = utc_to_tdb_seconds(t_receive_utc)
+        t3_tdb = t_receive_utc
         logger.debug(f"Receive time (TDB): {t3_tdb:.6f} seconds")
         
         t3_center = t3_tdb

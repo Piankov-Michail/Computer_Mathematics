@@ -1,5 +1,3 @@
-# parse_csv.py
-
 import pandas as pd
 import glob
 import os
@@ -59,7 +57,7 @@ def safe_parse_time(time_input):
     return parsed
 
 def load_messenger_doppler_data(data_dir: str = './processed_data') -> pd.DataFrame:
-    csv_files = glob.glob(os.path.join(data_dir, '*_doppler.csv'))
+    csv_files = glob.glob(os.path.join(data_dir, 'mess_*_doppler.csv'))
     if not csv_files:
         print("Нет файлов в processed_data/")
         return pd.DataFrame()
@@ -98,9 +96,20 @@ def load_messenger_doppler_data(data_dir: str = './processed_data') -> pd.DataFr
             print(f"Ошибка {file_path}: {e}")
 
     if not all_data:
-        return pd.DataFrame()
+        return pd.DataFrame(), pd.DataFrame()
 
     combined = pd.concat(all_data, ignore_index=True)
     combined = combined.sort_values('time_utc').reset_index(drop=True)
     print(f"\nВсего: {len(combined)} записей от {combined['time_utc'].min()} до {combined['time_utc'].max()}")
-    return combined
+
+    csv_ramp_files = glob.glob(os.path.join(data_dir, 'ramp*'))
+    all_ramp_data = []
+    for file in csv_ramp_files:
+        df = pd.read_csv(file)
+        df = df.iloc[1:]
+        all_ramp_data.append(df)
+    print(f'Все рампы загружены, {len(all_ramp_data)}')
+    
+    combined_ramp = pd.concat(all_ramp_data, ignore_index=True)
+
+    return combined, combined_ramp
