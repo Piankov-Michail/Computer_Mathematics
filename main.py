@@ -1,10 +1,8 @@
 from horizons_parser import *
-from interpolators import *
 from messener_orbit import *
 from create_graphs import *
-from parse_csv import *
 from stations_positions import *
-from lt_tw_doppler import *
+from lt_tw_doppler import process_doppler_with_exact_model, prepare_ramp_table_from_data, safe_parse_time
 from orbit_refinement import OrbitRefinementLSQ  
 
 def refine_orbit_with_lsq(doppler_df, body_interpolators, body_vel_interpolators, 
@@ -99,8 +97,14 @@ def refine_orbit_with_lsq(doppler_df, body_interpolators, body_vel_interpolators
 
 def main():
     raw_output_file = 'raw_messenger_doppler_data.csv'
+    raw_ramp_output_file = 'raw_messenger_ramp_data.csv'
     doppler_df = pd.read_csv(raw_output_file)
-    doppler_df = doppler_df[:10000]
+
+    filtered_doppler_df = doppler_df[doppler_df['time_utc'] <= '2014-01-03']
+    doppler_df = filtered_doppler_df
+    ramp_df = pd.read_csv(raw_ramp_output_file)
+    filtered_ramp_df = ramp_df[ramp_df['station_id'] != 0]
+    ramp_df = filtered_ramp_df[filtered_ramp_df['ramp_start_time'] <= '2014-01-03']
 
     print("3. АНАЛИЗ И ВИЗУАЛИЗАЦИЯ ДАННЫХ...")
     
@@ -167,7 +171,7 @@ def main():
     
     print("7. ВЫЧИСЛЕНИЕ THEORETICAL DOPPLER С LIGHT-TIME КОРРЕКЦИЕЙ...")
 
-    ramp_table = prepare_ramp_table_from_data(doppler_df)
+    ramp_table = prepare_ramp_table_from_data(doppler_df, ramp_df)
 
     results_df = process_doppler_with_exact_model(
         doppler_df,
@@ -179,15 +183,45 @@ def main():
         ramp_table
     )
 
-    if 'doppler_residual_hz' in results_df.columns:
-        initial_rms_full = np.sqrt(np.mean(results_df['doppler_residual_hz']**2))
-        print(f"\nНачальные невязки (полный набор):")
-        print(f"  RMS: {initial_rms_full:.3f} Гц")
-        print(f"  Максимальная: {results_df['doppler_residual_hz'].abs().max():.3f} Гц")
-        print(f"  Минимальная: {results_df['doppler_residual_hz'].abs().min():.3f} Гц")
-        print(f"  Стандартное отклонение: {results_df['doppler_residual_hz'].std():.3f} Гц")
+    print("8. СОХРАНЕНИЕ РЕЗУЛЬТАТОВ...")
+
+    print(f"Столбцы в results_df: {list(results_df.columns)}")
     
-    print("\n8. УТОЧНЕНИЕ ОРБИТЫ МЕТОДОМ НАИМЕНЬШИХ КВАДРАТОВ...")
+    results_columns = ['time_utc', 'station_id', 'theoretical_doppler_hz', 'light_time_s', 'range_km', 'range_rate_kms', 'doppler_residual_hz', 'measured_doppler_hz']
+    
+    available_columns = [col for col in results_columns if col in results_df.columns]
+    print(f"Доступные столбцы для объединения: {available_columns}")
+
+    final_df = pd.merge(
+        doppler_df,
+        results_df[available_columns],
+        on=['time_utc', 'station_id'],
+        how='inner'
+    )
+    
+    #output_file = 'messenger_doppler_final_results.csv'
+    #final_df.to_csv(output_file, index=False)
+    #print(f"Результаты сохранены в {output_file}")
+    
+    print("9. ВИЗУАЛИЗАЦИЯ РЕЗУЛЬТАТОВ")
+    
+    plot_doppler_comparison(final_df, DSN_STATIONS)
+    
+    print("СВОДНАЯ СТАТИСТИКА:")
+    print(f"Всего измерений: {len(final_df)}")
+    
+    if 'light_time_s' in final_df.columns:
+        print(f"Средний light-time: {final_df['light_time_s'].mean():.1f} ± {final_df['light_time_s'].std():.1f} s")
+    
+    if 'range_km' in final_df.columns:
+        print(f"Средняя дальность: {final_df['range_km'].mean()/1e6:.3f} ± {final_df['range_km'].std()/1e6:.3f} млн км")
+    
+    if 'doppler_residual_hz' in final_df.columns:
+        print(f"Средний residual Doppler: {final_df['doppler_residual_hz'].mean():.1f} ± {final_df['doppler_residual_hz'].std():.1f} Hz")
+
+    initial_rms_full = np.sqrt(np.mean(results_df['doppler_residual_hz']**2))
+    
+    print("8. УТОЧНЕНИЕ ОРБИТЫ МЕТОДОМ НАИМЕНЬШИХ КВАДРАТОВ...")
     
     refined_state, lsq_result, initial_rms = refine_orbit_with_lsq(
         doppler_df=doppler_df,
@@ -202,7 +236,7 @@ def main():
     )
     
     if refined_state is not None:
-        print("\n9. ПЕРЕВЫЧИСЛЕНИЕ ОРБИТЫ С УТОЧНЕННЫМИ ПАРАМЕТРАМИ...")
+        print("9. ПЕРЕВЫЧИСЛЕНИЕ ОРБИТЫ С УТОЧНЕННЫМИ ПАРАМЕТРАМИ...")
         
         refined_orbit_result = integrate_messenger_orbit(
             t_span, t_eval, refined_state, body_interpolators, gms_data, radius_data
@@ -215,7 +249,7 @@ def main():
                 refined_orbit_result['velocities']
             )
             
-            print("\n10. ПЕРЕВЫЧИСЛЕНИЕ DOPPLER С УТОЧНЕННОЙ ОРБИТОЙ...")
+            print("10. ПЕРЕВЫЧИСЛЕНИЕ DOPPLER С УТОЧНЕННОЙ ОРБИТОЙ...")
             
             refined_results_df = process_doppler_with_exact_model(
                 doppler_df,
@@ -227,7 +261,7 @@ def main():
                 ramp_table
             )
             
-            print("\n11. ИТОГОВОЕ СРАВНЕНИЕ РЕЗУЛЬТАТОВ:")
+            print("11. ИТОГОВОЕ СРАВНЕНИЕ РЕЗУЛЬТАТОВ:")
             
             if 'doppler_residual_hz' in refined_results_df.columns:
                 final_rms_full = np.sqrt(np.mean(refined_results_df['doppler_residual_hz']**2))

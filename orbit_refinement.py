@@ -4,16 +4,19 @@ from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import warnings
+import pandas as pd
+import glob
+import os
+
 from ls_manual import ManualLeastSquares
 from lt_tw_doppler import compute_two_way_doppler_ramped
 from messener_orbit import integrate_messenger_orbit
 from lt_tw_doppler import utc_to_tdb_seconds, compute_two_way_doppler_ramped
 from interpolators import create_interpolators
+
 warnings.filterwarnings('ignore')
-import pandas as pd
-import glob
-import os
-from main import DSN_STATIONS
+
+from stations_positions import DSN_STATIONS
 
 def safe_parse_time(time_input):
     if isinstance(time_input, str):

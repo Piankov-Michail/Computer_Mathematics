@@ -1,9 +1,7 @@
-# parse_csv.py
-
 import pandas as pd
 import glob
 import os
-from main import DSN_STATIONS
+from stations_positions import DSN_STATIONS
 
 def safe_parse_time(time_input):
     if isinstance(time_input, str):
